@@ -2,7 +2,7 @@ import UnitsSelector from "./UnitsSelector";
 
 export default function Header() {
   return (
-    <header className="flex items-center justify-between p-4">
+    <header className="flex items-center justify-between p-4 md:p-6">
       <svg
         className="max-w-[150px] md:max-w-[200px]"
         xmlns="http://www.w3.org/2000/svg"
