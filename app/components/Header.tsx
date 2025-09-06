@@ -1,6 +1,8 @@
 import UnitsSelector from "./UnitsSelector";
+import { useUnits } from "../context/UnitsContext";
 
 export default function Header() {
+  const { units } = useUnits();
   return (
     <header className="flex items-center justify-between p-4 md:p-6">
       <svg

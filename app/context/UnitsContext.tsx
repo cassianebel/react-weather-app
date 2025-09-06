@@ -1,7 +1,11 @@
+// app/context/UnitsContext.tsx
 import { createContext, useContext, useState, type ReactNode } from "react";
 
-type Units = {
-  temp: "Metric" | "Imperial";
+export type Units = {
+  all: "metric" | "imperial" | "mix";
+  temp: "celsius" | "fahrenheit";
+  wind: "kmh" | "mph";
+  precip: "mm" | "inch";
 };
 
 type UnitsContextType = {
@@ -12,7 +16,12 @@ type UnitsContextType = {
 const UnitsContext = createContext<UnitsContextType | undefined>(undefined);
 
 export function UnitsProvider({ children }: { children: ReactNode }) {
-  const [units, setUnits] = useState<Units>({ temp: "Imperial" });
+  const [units, setUnits] = useState<Units>({
+    all: "metric",
+    temp: "celsius",
+    wind: "kmh",
+    precip: "mm",
+  });
 
   return (
     <UnitsContext.Provider value={{ units, setUnits }}>
@@ -22,9 +31,7 @@ export function UnitsProvider({ children }: { children: ReactNode }) {
 }
 
 export function useUnits() {
-  const context = useContext(UnitsContext);
-  if (!context) {
-    throw new Error("useUnits must be used within a UnitsProvider");
-  }
-  return context;
+  const ctx = useContext(UnitsContext);
+  if (!ctx) throw new Error("useUnits must be used inside UnitsProvider");
+  return ctx;
 }

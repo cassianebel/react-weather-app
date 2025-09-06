@@ -6,10 +6,54 @@ export default function UnitsSelector() {
   const [displayUnits, setDisplayUnits] = useState(false);
   const { units, setUnits } = useUnits();
 
-  const toggleUnits = () => {
-    const newUnit = units.temp === "Imperial" ? "Metric" : "Imperial";
-    setUnits({ ...units, temp: newUnit });
-    localStorage.setItem("units", newUnit);
+  const toggleUnits = (unitType: string) => {
+    return (e) => {
+      if (unitType === "all") {
+        if (units.all === "imperial") {
+          setUnits({
+            all: "metric",
+            temp: "celsius",
+            wind: "kmh",
+            precip: "mm",
+          });
+        } else {
+          setUnits({
+            all: "imperial",
+            temp: "fahrenheit",
+            wind: "mph",
+            precip: "inch",
+          });
+        }
+      } else {
+        setUnits({
+          ...units,
+          [e.target.name]: e.target.value,
+          all: "mix",
+        });
+      }
+
+      //   } else if (unitType === "temp") {
+      //     setUnits({
+      //       ...units,
+      //       temp: e.target.value,
+      //       all: "Mix",
+      //     });
+      //   } else if (unitType === "wind") {
+      //     setUnits({
+      //       ...units,
+      //       wind: e.target.value,
+      //       all: "Mix",
+      //     });
+      //   } else if (unitType === "percip") {
+      //     setUnits({
+      //       ...units,
+      //       precip: e.target.value,
+      //       all: "Mix",
+      //     });
+      //   } else {
+      //     console.error("Unknown unit type:", unitType);
+      //   }
+    };
   };
 
   return (
@@ -47,65 +91,65 @@ export default function UnitsSelector() {
       {displayUnits ? (
         <div className="absolute right-0 min-w-55 border border-neutral-600 bg-neutral-800 mt-2 rounded-xl">
           <button
-            onClick={toggleUnits}
+            onClick={toggleUnits("all")}
             className="text-left w-full p-3 px-4 cursor-pointer"
           >
-            {units.temp === "Imperial"
+            {units.all === "imperial"
               ? "Switch to Metric"
               : "Switch to Imperial"}
           </button>
           <RadioFieldset
             legend="Temperature"
-            changeHandler={toggleUnits}
+            changeHandler={toggleUnits("temp")}
             options={[
               {
                 name: "temp",
-                value: "Metric",
+                value: "celsius",
                 label: "Celsius (°C)",
-                checked: units.temp === "Metric",
+                checked: units.temp === "celsius",
               },
               {
                 name: "temp",
-                value: "Imperial",
+                value: "fahrenheit",
                 label: "Fahrenheit (°F)",
-                checked: units.temp === "Imperial",
+                checked: units.temp === "fahrenheit",
               },
             ]}
           />
           <RadioFieldset
             legend="Wind Speed"
-            changeHandler={toggleUnits}
+            changeHandler={toggleUnits("wind")}
             options={[
               {
                 name: "wind",
-                value: "Metric",
+                value: "kmh",
                 label: "km/h",
-                checked: units.temp === "Metric",
+                checked: units.wind === "kmh",
               },
               {
                 name: "wind",
-                value: "Imperial",
+                value: "mph",
                 label: "mph",
-                checked: units.temp === "Imperial",
+                checked: units.wind === "mph",
               },
             ]}
           />
 
           <RadioFieldset
             legend="Percipitation"
-            changeHandler={toggleUnits}
+            changeHandler={toggleUnits("percip")}
             options={[
               {
-                name: "percipitation",
-                value: "Metric",
+                name: "precip",
+                value: "mm",
                 label: "Millimeters (mm)",
-                checked: units.temp === "Metric",
+                checked: units.precip === "mm",
               },
               {
-                name: "percipitation",
-                value: "Imperial",
+                name: "precip",
+                value: "inch",
                 label: "Inches (in)",
-                checked: units.temp === "Imperial",
+                checked: units.precip === "inch",
               },
             ]}
           />
