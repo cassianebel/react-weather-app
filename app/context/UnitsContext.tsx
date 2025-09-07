@@ -1,4 +1,4 @@
-// app/context/UnitsContext.tsx
+import { useEffect } from "react";
 import { createContext, useContext, useState, type ReactNode } from "react";
 
 export type Units = {
@@ -16,12 +16,35 @@ type UnitsContextType = {
 const UnitsContext = createContext<UnitsContextType | undefined>(undefined);
 
 export function UnitsProvider({ children }: { children: ReactNode }) {
-  const [units, setUnits] = useState<Units>({
-    all: "metric",
-    temp: "celsius",
-    wind: "kmh",
-    precip: "mm",
+  const [units, setUnits] = useState<Units>(() => {
+    if (typeof window !== "undefined") {
+      const stored = localStorage.getItem("units");
+      if (stored) {
+        try {
+          return JSON.parse(stored) as Units;
+        } catch {
+          return {
+            all: "metric",
+            temp: "celsius",
+            wind: "kmh",
+            precip: "mm",
+          };
+        }
+      }
+    }
+    return {
+      all: "metric",
+      temp: "celsius",
+      wind: "kmh",
+      precip: "mm",
+    };
   });
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("units", JSON.stringify(units));
+    }
+  }, [units]);
 
   return (
     <UnitsContext.Provider value={{ units, setUnits }}>

@@ -20,3 +20,15 @@ export function buildForecastUrl(lat: number, lon: number, units: Units) {
 
   return `${base}?${params.toString()}`;
 }
+
+export function buildReverseGeocodeURL(lat: number, lon: number) {
+  const base = "https://nominatim.openstreetmap.org/reverse";
+
+  const params = new URLSearchParams({
+    lat: String(lat),
+    lon: String(lon),
+    format: "json",
+  });
+
+  return `${base}?${params.toString()}`;
+}
