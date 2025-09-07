@@ -6,53 +6,33 @@ export default function UnitsSelector() {
   const [displayUnits, setDisplayUnits] = useState(false);
   const { units, setUnits } = useUnits();
 
-  const toggleUnits = (unitType: string) => {
-    return (e) => {
-      if (unitType === "all") {
-        if (units.all === "imperial") {
-          setUnits({
-            all: "metric",
-            temp: "celsius",
-            wind: "kmh",
-            precip: "mm",
-          });
-        } else {
-          setUnits({
-            all: "imperial",
-            temp: "fahrenheit",
-            wind: "mph",
-            precip: "inch",
-          });
-        }
+  const toggleUnits = () => {
+    return () => {
+      if (units.all === "imperial") {
+        setUnits({
+          all: "metric",
+          temp: "celsius",
+          wind: "kmh",
+          precip: "mm",
+        });
       } else {
         setUnits({
-          ...units,
-          [e.target.name]: e.target.value,
-          all: "mix",
+          all: "imperial",
+          temp: "fahrenheit",
+          wind: "mph",
+          precip: "inch",
         });
       }
+    };
+  };
 
-      //   } else if (unitType === "temp") {
-      //     setUnits({
-      //       ...units,
-      //       temp: e.target.value,
-      //       all: "Mix",
-      //     });
-      //   } else if (unitType === "wind") {
-      //     setUnits({
-      //       ...units,
-      //       wind: e.target.value,
-      //       all: "Mix",
-      //     });
-      //   } else if (unitType === "percip") {
-      //     setUnits({
-      //       ...units,
-      //       precip: e.target.value,
-      //       all: "Mix",
-      //     });
-      //   } else {
-      //     console.error("Unknown unit type:", unitType);
-      //   }
+  const unitChangeHandler = () => {
+    return (e: React.ChangeEvent<HTMLInputElement>) => {
+      setUnits({
+        ...units,
+        [e.target.name]: e.target.value,
+        all: "mix",
+      });
     };
   };
 
@@ -91,7 +71,7 @@ export default function UnitsSelector() {
       {displayUnits ? (
         <div className="absolute right-0 min-w-55 border border-neutral-600 bg-neutral-800 mt-2 rounded-xl">
           <button
-            onClick={toggleUnits("all")}
+            onClick={toggleUnits()}
             className="text-left w-full p-3 px-4 cursor-pointer"
           >
             {units.all === "imperial"
@@ -100,7 +80,7 @@ export default function UnitsSelector() {
           </button>
           <RadioFieldset
             legend="Temperature"
-            changeHandler={toggleUnits("temp")}
+            changeHandler={unitChangeHandler()}
             options={[
               {
                 name: "temp",
@@ -118,7 +98,7 @@ export default function UnitsSelector() {
           />
           <RadioFieldset
             legend="Wind Speed"
-            changeHandler={toggleUnits("wind")}
+            changeHandler={unitChangeHandler()}
             options={[
               {
                 name: "wind",
@@ -137,7 +117,7 @@ export default function UnitsSelector() {
 
           <RadioFieldset
             legend="Percipitation"
-            changeHandler={toggleUnits("percip")}
+            changeHandler={unitChangeHandler()}
             options={[
               {
                 name: "precip",

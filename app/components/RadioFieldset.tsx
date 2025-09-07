@@ -1,4 +1,17 @@
-export default function RadioFieldset({ legend, changeHandler, options }) {
+export default function RadioFieldset({
+  legend,
+  changeHandler,
+  options,
+}: {
+  legend: string;
+  changeHandler: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  options: {
+    value: string;
+    name: string;
+    checked: boolean;
+    label: string;
+  }[];
+}) {
   return (
     <fieldset className="m-2 pb-2 border-b border-neutral-600 last:border-0">
       <legend className="text-sm text-neutral-300 px-2 mb-1">{legend}</legend>
