@@ -44,11 +44,32 @@ function formatLocation(address: {
   return place;
 }
 
+const getLocalDate = () => {
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
+const translateDateName = (dateString: string, format: string = "long") => {
+  // Parse manually so there's no timezone conversion
+  const [year, month, date] = dateString.split("-").map(Number);
+  const localDate = new Date(year, month - 1, date);
+  const weekday = localDate.toLocaleDateString("en-US", {
+    weekday: format,
+  });
+  return weekday;
+};
+
 export default function Weather({ lat, lon }: { lat: number; lon: number }) {
   const { units } = useUnits();
   const [data, setData] = useState<any>(null);
   const [currentWeather, setCurrentWeather] = useState<any>(null);
   const [place, setPlace] = useState<any>(null);
+  const [displayDays, setDisplayDays] = useState(false);
+  const [dailyDate, setDailyDate] = useState<string>(getLocalDate());
+  const [dailyDay, setDailyDay] = useState<string>("");
 
   useEffect(() => {
     async function fetchWeather() {
@@ -76,6 +97,10 @@ export default function Weather({ lat, lon }: { lat: number; lon: number }) {
     fetchCity();
   }, [lat, lon]);
 
+  useEffect(() => {
+    setDailyDay(translateDateName(dailyDate));
+  }, [dailyDate]);
+
   const today = new Date();
   const options: Intl.DateTimeFormatOptions = {
     weekday: "long",
@@ -88,7 +113,7 @@ export default function Weather({ lat, lon }: { lat: number; lon: number }) {
   if (!data) return <p>Loading weather…</p>;
 
   return (
-    <div>
+    <div className="grid grid-cols-1 gap-8">
       <section>
         <div className="flex flex-col md:flex-row gap-2 items-center justify-between text-center md:text-left rounded-2xl p-9 bg-blue-700 bg-[url(../images/bg-today-small.svg)] md:bg-[url(../images/bg-today-large.svg)] bg-no-repeat bg-bottom bg-cover">
           <div>
@@ -147,21 +172,18 @@ export default function Weather({ lat, lon }: { lat: number; lon: number }) {
         </ul>
       </section>
       <section>
-        <h2 className="mt-8 mb-4 text-lg">Daily forecast</h2>
+        <h2 className="mb-4 text-lg">Daily forecast</h2>
         <ul className="grid grid-cols-3 md:grid-cols-7 gap-4 text-center">
           {data.daily.time.map((day: string, index: number) => {
-            const date = new Date(day);
-            const options: Intl.DateTimeFormatOptions = { weekday: "short" };
-            const shortWeekday = date.toLocaleDateString("en-US", options);
             const [weather, icon] = translateWeatherCode(
               data.daily.weather_code[index]
             );
             const max = Math.round(data.daily.temperature_2m_max[index]);
             const min = Math.round(data.daily.temperature_2m_min[index]);
             return (
-              <Panel key={shortWeekday}>
+              <Panel key={day}>
                 <div className="flex flex-col items-center gap-2">
-                  <h3>{shortWeekday}</h3>
+                  <h3>{translateDateName(day, "short")}</h3>
                   <span className="sr-only">{weather}</span>
                   <img
                     src={`./images/${icon}`}
@@ -184,8 +206,40 @@ export default function Weather({ lat, lon }: { lat: number; lon: number }) {
           })}
         </ul>
       </section>
-      <section className="bg-neutral-800 border border-neutral-600 rounded-xl p-4">
-        <h2 className="text-lg">Hourly forecast</h2>
+      <section className="bg-neutral-800 border border-neutral-600 rounded-xl p-4 min-h-100">
+        <div className="flex items-center justify-between gap-4 relative">
+          <h2 className="text-lg">Hourly forecast</h2>
+          <button
+            onClick={() => setDisplayDays(!displayDays)}
+            className="flex items-center justify-center gap-2 bg-neutral-600 py-2 px-4 rounded-md cursor-pointer"
+          >
+            {dailyDay}
+          </button>
+          {displayDays ? (
+            <fieldset className="absolute right-0 top-12 min-w-55 border border-neutral-600 bg-neutral-800 p-2 rounded-xl">
+              <legend className="sr-only">Hourly Forecast Day</legend>
+              {data.daily.time.map((day: string) => {
+                return (
+                  <div key={day}>
+                    <label className="block p-2 rounded-lg cursor-pointer">
+                      <input
+                        type="radio"
+                        name="day"
+                        value={day}
+                        checked={day === dailyDate}
+                        onChange={() => setDailyDate(day)}
+                        className="sr-only"
+                      />
+                      {translateDateName(day)}
+                    </label>
+                  </div>
+                );
+              })}
+            </fieldset>
+          ) : (
+            ""
+          )}
+        </div>
       </section>
     </div>
   );
