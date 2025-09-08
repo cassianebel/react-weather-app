@@ -32,3 +32,37 @@ export function buildReverseGeocodeURL(lat: number, lon: number) {
 
   return `${base}?${params.toString()}`;
 }
+
+export function translateWeatherCode(code: number): [string, string] {
+  const weatherCodes: { [key: number]: [string, string] } = {
+    0: ["Clear sky", "icon-sunny.webp"],
+    1: ["Mainly clear", "icon-sunny.webp"],
+    2: ["Partly cloudy", "icon-partly-cloudy.webp"],
+    3: ["Overcast", "icon-overcast.webp"],
+    45: ["Fog", "icon-fog.webp"],
+    48: ["Depositing rime fog", "icon-fog.webp"],
+    51: ["Light drizzle", "icon-drizzle.webp"],
+    53: ["Moderate drizzle", "icon-drizzle.webp"],
+    55: ["Dense drizzle", "icon-drizzle.webp"],
+    56: ["Light freezing drizzle", "icon-drizzle.webp"],
+    57: ["Dense freezing drizzle", "icon-drizzle.webp"],
+    61: ["Slight rain", "icon-rain.webp"],
+    63: ["Moderate rain", "icon-rain.webp"],
+    65: ["Heavy rain", "icon-rain.webp"],
+    66: ["Light freezing rain", "icon-rain.webp"],
+    67: ["Heavy freezing rain", "icon-rain.webp"],
+    71: ["Slight snow fall", "icon-snow.webp"],
+    73: ["Moderate snow fall", "icon-snow.webp"],
+    75: ["Heavy snow fall", "icon-snow.webp"],
+    77: ["Snow grains", "icon-snow.webp"],
+    80: ["Slight rain showers", "icon-rain.webp"],
+    81: ["Moderate rain showers", "icon-rain.webp"],
+    82: ["Violent rain showers", "icon-rain.webp"],
+    85: ["Slight snow showers", "icon-snow.webp"],
+    86: ["Heavy snow showers", "icon-snow.webp"],
+    95: ["Slight or moderate thunderstorm", "icon-storm.webp"],
+    96: ["Slight hail thunderstorm", "icon-storm.webp"],
+    99: ["Heavy hail thunderstorm", "icon-storm.webp"],
+  };
+  return weatherCodes[code] || "Unknown";
+}

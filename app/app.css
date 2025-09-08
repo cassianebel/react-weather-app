@@ -24,6 +24,7 @@ body {
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
   }
+  font-size: 18px;
 }
 
 label:has(input[type="radio"]:checked) {
