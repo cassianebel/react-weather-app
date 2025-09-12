@@ -69,10 +69,10 @@ export default function UnitsSelector() {
         </svg>
       </button>
       {displayUnits ? (
-        <div className="absolute right-0 min-w-55 border border-neutral-600 bg-neutral-800 mt-2 rounded-xl">
+        <div className="absolute right-0 min-w-55 border border-neutral-600 bg-neutral-800 mt-2 rounded-xl z-10">
           <button
             onClick={toggleUnits()}
-            className="text-left w-full p-3 px-4 cursor-pointer"
+            className="flex justify-self-stretch text-left box-border px-2 py-1 mx-2 my-2 rounded-lg cursor-pointer hover:bg-neutral-700"
           >
             {units.all === "imperial"
               ? "Switch to Metric"

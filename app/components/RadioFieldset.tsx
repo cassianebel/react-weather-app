@@ -17,7 +17,7 @@ export default function RadioFieldset({
       <legend className="text-sm text-neutral-300 px-2 mb-1">{legend}</legend>
       {options.map((option) => (
         <label
-          className="block p-2 rounded-lg cursor-pointer"
+          className="block px-2 py-1 my-1 rounded-lg cursor-pointer hover:bg-neutral-700"
           key={option.value}
         >
           <input
