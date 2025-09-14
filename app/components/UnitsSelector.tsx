@@ -39,8 +39,10 @@ export default function UnitsSelector() {
   return (
     <div className="relative">
       <button
+        aria-controls="settings"
+        aria-expanded={displayUnits}
         onClick={() => setDisplayUnits(!displayUnits)}
-        className="flex items-center justify-center gap-2 bg-neutral-800 py-2 px-4 rounded-md cursor-pointer"
+        className="flex items-center justify-center gap-2 bg-neutral-800 py-2 px-4 rounded-md cursor-pointer outline-white outline-offset-4"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -56,6 +58,7 @@ export default function UnitsSelector() {
         </svg>
         <span>Units</span>
         <svg
+          className="btn-arrow"
           xmlns="http://www.w3.org/2000/svg"
           width="13"
           height="8"
@@ -69,10 +72,13 @@ export default function UnitsSelector() {
         </svg>
       </button>
       {displayUnits ? (
-        <div className="absolute right-0 min-w-55 border border-neutral-600 bg-neutral-800 mt-2 rounded-xl z-10">
+        <div
+          id="settings"
+          className="absolute right-0 min-w-55 border border-neutral-600 bg-neutral-800 mt-2 rounded-xl z-10"
+        >
           <button
             onClick={toggleUnits()}
-            className="flex justify-self-stretch text-left box-border px-2 py-1 mx-2 my-2 rounded-lg cursor-pointer hover:bg-neutral-700"
+            className="flex justify-self-stretch text-left box-border px-2 py-1 mx-2 my-2 rounded-lg cursor-pointer hover:bg-neutral-700 outline-white outline-offset-4"
           >
             {units.all === "imperial"
               ? "Switch to Metric"

@@ -33,6 +33,17 @@ export function buildReverseGeocodeURL(lat: number, lon: number) {
   return `${base}?${params.toString()}`;
 }
 
+export function buildGeocodeURL(query: string) {
+  const base = "https://geocoding-api.open-meteo.com/v1/search";
+
+  const params = new URLSearchParams({
+    name: query,
+    count: "4",
+  });
+
+  return `${base}?${params.toString()}`;
+}
+
 export function translateWeatherCode(code: number): [string, string] {
   const weatherCodes: { [key: number]: [string, string] } = {
     0: ["Clear sky", "icon-sunny.webp"],

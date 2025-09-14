@@ -236,11 +236,14 @@ export default function Weather({ lat, lon }: { lat: number; lon: number }) {
         <div className="flex items-center justify-between gap-4 relative pe-4">
           <h2 className="text-lg">Hourly forecast</h2>
           <button
+            aria-controls="day-picker"
+            aria-expanded={displayDays}
             onClick={() => setDisplayDays(!displayDays)}
             className="flex items-center justify-center gap-2 bg-neutral-600 py-2 px-4 rounded-md cursor-pointer"
           >
             {hourlyDay}
             <svg
+              className="btn-arrow"
               xmlns="http://www.w3.org/2000/svg"
               width="13"
               height="8"
@@ -254,7 +257,10 @@ export default function Weather({ lat, lon }: { lat: number; lon: number }) {
             </svg>
           </button>
           {displayDays ? (
-            <fieldset className="absolute right-0 top-12 min-w-55 border border-neutral-600 bg-neutral-800 p-2 rounded-xl">
+            <fieldset
+              id="day-picker"
+              className="absolute right-0 top-12 min-w-55 border border-neutral-600 bg-neutral-800 p-2 rounded-xl"
+            >
               <legend className="sr-only">Hourly Forecast Day</legend>
               {data.daily.time.map((day: string) => {
                 return (
