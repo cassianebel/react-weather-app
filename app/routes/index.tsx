@@ -20,6 +20,7 @@ export default function Index() {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [error, setError] = useState<string | null>(null);
 
+  // get user's location on initial load
   useEffect(() => {
     if (!navigator.geolocation) {
       setError("Geolocation is not supported by your browser.");
@@ -37,6 +38,7 @@ export default function Index() {
     navigator.geolocation.getCurrentPosition(success, fail);
   }, []);
 
+  // fetch search suggestions as the query changes
   useEffect(() => {
     if (!query) {
       setSuggestions([]);
@@ -80,8 +82,7 @@ export default function Index() {
       setError("Please select a valid city from the suggestions.");
       return;
     }
-
-    const first = suggestions[0]; // pick the best match
+    const first = suggestions[0];
     setCoords({ lat: first.latitude, lon: first.longitude });
     setQuery(`${first.name}, ${first.admin1 || first.country}`);
     setSuggestions([]);

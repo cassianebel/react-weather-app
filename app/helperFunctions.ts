@@ -47,6 +47,16 @@ export function handleClickOutside(
   }
 }
 
+export function translateDateName(dateString: string, format: string = "long") {
+  // Parse manually so there's no timezone conversion
+  const [year, month, date] = dateString.split("-").map(Number);
+  const localDate = new Date(year, month - 1, date);
+  const weekday = localDate.toLocaleDateString("en-US", {
+    weekday: format,
+  });
+  return weekday;
+}
+
 export function translateWeatherCode(code: number): [string, string] {
   const weatherCodes: { [key: number]: [string, string] } = {
     0: ["Clear sky", "icon-sunny.webp"],
