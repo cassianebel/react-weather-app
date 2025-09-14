@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Weather from "~/components/Weather";
-import { buildGeocodeURL } from "../helperFunctions";
+import { handleClickOutside } from "~/helperFunctions";
 
 interface Suggestion {
   name: string;
@@ -54,6 +54,24 @@ export default function Index() {
 
     return () => clearTimeout(timeout);
   }, [query]);
+
+  // close the search suggestions selector if clicking outside of it
+  useEffect(() => {
+    if (displaySuggestions) {
+      document.addEventListener("mousedown", (event: MouseEvent) => {
+        handleClickOutside(event, "suggestions-listbox", setDisplaySuggestions);
+      });
+    } else {
+      document.removeEventListener("mousedown", (event: MouseEvent) => {
+        handleClickOutside(event, "suggestions-listbox", setDisplaySuggestions);
+      });
+    }
+    return () => {
+      document.removeEventListener("mousedown", (event: MouseEvent) => {
+        handleClickOutside(event, "suggestions-listbox", setDisplaySuggestions);
+      });
+    };
+  }, [displaySuggestions]);
 
   async function handleSubmit(e?: React.FormEvent) {
     if (e) e.preventDefault();

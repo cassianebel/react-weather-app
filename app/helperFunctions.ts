@@ -33,15 +33,18 @@ export function buildReverseGeocodeURL(lat: number, lon: number) {
   return `${base}?${params.toString()}`;
 }
 
-export function buildGeocodeURL(query: string) {
-  const base = "https://geocoding-api.open-meteo.com/v1/search";
-
-  const params = new URLSearchParams({
-    name: query,
-    count: "4",
-  });
-
-  return `${base}?${params.toString()}`;
+export function handleClickOutside(
+  event: MouseEvent,
+  divId: String,
+  displayMenuHandler: Function
+) {
+  const target = event.target as HTMLElement;
+  if (
+    !target.closest(`#${divId}`) &&
+    !target.closest(`button[aria-controls='${divId}']`)
+  ) {
+    displayMenuHandler(false);
+  }
 }
 
 export function translateWeatherCode(code: number): [string, string] {

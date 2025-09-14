@@ -13,7 +13,7 @@ export default function RadioFieldset({
   }[];
 }) {
   return (
-    <fieldset className="m-2 pb-2 border-b border-neutral-600 last:border-0 outline-white outline-offset-4">
+    <fieldset className="m-2 pb-2 border-b border-neutral-600 last:border-0 outline-white outline-offset-4 focus-within:outline-2 rounded-lg">
       <legend className="text-sm text-neutral-300 px-2 mb-1">{legend}</legend>
       {options.map((option) => (
         <label

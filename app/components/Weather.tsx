@@ -4,6 +4,7 @@ import {
   buildForecastUrl,
   buildReverseGeocodeURL,
   translateWeatherCode,
+  handleClickOutside,
 } from "../helperFunctions";
 import Panel from "./Panel";
 
@@ -72,6 +73,7 @@ export default function Weather({ lat, lon }: { lat: number; lon: number }) {
   const [hourlyDay, setHourlyDay] = useState<string>("");
   const listRef = useRef<HTMLUListElement>(null);
 
+  // get the weather data
   useEffect(() => {
     async function fetchWeather() {
       const url = buildForecastUrl(lat, lon, units);
@@ -84,6 +86,7 @@ export default function Weather({ lat, lon }: { lat: number; lon: number }) {
     fetchWeather();
   }, [lat, lon, units]);
 
+  // get the user's location
   useEffect(() => {
     async function fetchCity() {
       const url = buildReverseGeocodeURL(lat, lon);
@@ -91,34 +94,59 @@ export default function Weather({ lat, lon }: { lat: number; lon: number }) {
       const data: NominatimResponse = await res.json();
       const address = data.address;
       const place = formatLocation(address);
-
-      console.log(place);
       setPlace(place);
     }
     fetchCity();
   }, [lat, lon]);
 
+  // set the day for the hourly forecast
   useEffect(() => {
     setHourlyDay(translateDateName(hourlyDate));
   }, [hourlyDate]);
 
+  // scroll the hourly forecast to the current hour
   useEffect(() => {
     if (!listRef.current) return;
 
     const now = new Date();
-    const currentHour = now.getHours(); // 0–23
+    const currentHour = now.getHours();
 
-    // Find the <li> with matching hour
     const items = listRef.current.querySelectorAll("li[data-hour]");
     const target = Array.from(items).find(
       (li) => Number(li.getAttribute("data-hour")) === currentHour
     );
 
     if (target && listRef.current) {
-      listRef.current.scrollTop = target.offsetTop;
+      const containerTop = listRef.current.getBoundingClientRect().top;
+      const targetTop = target.getBoundingClientRect().top;
+      const scrollOffset = targetTop - containerTop;
+
+      listRef.current.scrollTo({
+        top: listRef.current.scrollTop + scrollOffset,
+        behavior: "smooth",
+      });
     }
   }, [data]);
 
+  // close the day selector if clicking outside of it
+  useEffect(() => {
+    if (displayDays) {
+      document.addEventListener("mousedown", (event: MouseEvent) =>
+        handleClickOutside(event, "day-picker", setDisplayDays)
+      );
+    } else {
+      document.removeEventListener("mousedown", (event: MouseEvent) =>
+        handleClickOutside(event, "day-picker", setDisplayDays)
+      );
+    }
+    return () => {
+      document.removeEventListener("mousedown", (event: MouseEvent) =>
+        handleClickOutside(event, "day-picker", setDisplayDays)
+      );
+    };
+  }, [displayDays]);
+
+  // get today's date
   const today = new Date();
   const options: Intl.DateTimeFormatOptions = {
     weekday: "long",
@@ -239,7 +267,7 @@ export default function Weather({ lat, lon }: { lat: number; lon: number }) {
             aria-controls="day-picker"
             aria-expanded={displayDays}
             onClick={() => setDisplayDays(!displayDays)}
-            className="flex items-center justify-center gap-2 bg-neutral-600 py-2 px-4 rounded-md cursor-pointer"
+            className="flex items-center justify-center gap-2 bg-neutral-600 py-2 px-4 rounded-md cursor-pointer outline-white outline-offset-4"
           >
             {hourlyDay}
             <svg
@@ -259,7 +287,7 @@ export default function Weather({ lat, lon }: { lat: number; lon: number }) {
           {displayDays ? (
             <fieldset
               id="day-picker"
-              className="absolute right-0 top-12 min-w-55 border border-neutral-600 bg-neutral-800 p-2 rounded-xl"
+              className="absolute right-0 top-12 min-w-55 border border-neutral-600 bg-neutral-800 p-2 rounded-xl outline-white outline-offset-4 focus-within:outline-2 shadow-lg shadow-neutral-900/40"
             >
               <legend className="sr-only">Hourly Forecast Day</legend>
               {data.daily.time.map((day: string) => {
@@ -284,7 +312,10 @@ export default function Weather({ lat, lon }: { lat: number; lon: number }) {
             ""
           )}
         </div>
-        <ul ref={listRef} className="max-h-140 overflow-y-scroll pe-4 mt-2 ">
+        <ul
+          ref={listRef}
+          className="max-h-140 overflow-y-scroll pe-4 mt-2 outline-white outline-offset-4 rounded-xl"
+        >
           {data.hourly.time.map((hour: string, index: number) => {
             if (hour.startsWith(hourlyDate)) {
               const [weather, icon] = translateWeatherCode(

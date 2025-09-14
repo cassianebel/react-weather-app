@@ -1,10 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useUnits } from "../context/UnitsContext";
 import RadioFieldset from "./RadioFieldset";
+import { handleClickOutside } from "~/helperFunctions";
 
 export default function UnitsSelector() {
   const [displayUnits, setDisplayUnits] = useState(false);
   const { units, setUnits } = useUnits();
+
+  // close the units selector if clicking outside of it
+  useEffect(() => {
+    if (displayUnits) {
+      document.addEventListener("mousedown", (event: MouseEvent) =>
+        handleClickOutside(event, "settings", setDisplayUnits)
+      );
+    } else {
+      document.removeEventListener("mousedown", (event: MouseEvent) =>
+        handleClickOutside(event, "settings", setDisplayUnits)
+      );
+    }
+    return () => {
+      document.removeEventListener("mousedown", (event: MouseEvent) =>
+        handleClickOutside(event, "settings", setDisplayUnits)
+      );
+    };
+  }, [displayUnits]);
 
   const toggleUnits = () => {
     return () => {
@@ -74,7 +93,7 @@ export default function UnitsSelector() {
       {displayUnits ? (
         <div
           id="settings"
-          className="absolute right-0 min-w-55 border border-neutral-600 bg-neutral-800 mt-2 rounded-xl z-10"
+          className="absolute right-0 min-w-55 border border-neutral-600 bg-neutral-800 mt-2 rounded-xl z-10 shadow-lg shadow-neutral-900/40"
         >
           <button
             onClick={toggleUnits()}
