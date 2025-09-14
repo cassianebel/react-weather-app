@@ -73,7 +73,7 @@ export default function DailyForecast({
   }, [displayDays]);
 
   return (
-    <section className="bg-neutral-800 border border-neutral-600 rounded-xl p-4 pe-0 min-h-100">
+    <section className="bg-neutral-800 border border-neutral-600 rounded-xl p-4 pe-0 min-h-full">
       <div className="flex items-center justify-between gap-4 relative pe-4">
         <h2 className="text-lg">Hourly forecast</h2>
         <button
@@ -127,7 +127,7 @@ export default function DailyForecast({
       </div>
       <ul
         ref={listRef}
-        className="max-h-140 overflow-y-scroll pe-4 mt-2 outline-white outline-offset-4 rounded-xl"
+        className="max-h-137 overflow-y-scroll pe-4 mt-2 outline-white outline-offset-4 rounded-xl"
       >
         {data.hourly.time.map((hour: string, index: number) => {
           if (hour.startsWith(hourlyDate)) {

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Weather from "~/components/Weather";
 import { handleClickOutside } from "~/helperFunctions";
+import Skeleton from "~/components/Skeleton";
 
 interface Suggestion {
   name: string;
@@ -11,10 +12,9 @@ interface Suggestion {
 }
 
 export default function Index() {
-  const [coords, setCoords] = useState<{ lat: number; lon: number }>({
-    lat: 51.5074,
-    lon: -0.1278,
-  });
+  const [coords, setCoords] = useState<{ lat: number; lon: number } | null>(
+    null
+  );
   const [displaySuggestions, setDisplaySuggestions] = useState(false);
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
@@ -22,20 +22,35 @@ export default function Index() {
 
   // get user's location on initial load
   useEffect(() => {
-    if (!navigator.geolocation) {
-      setError("Geolocation is not supported by your browser.");
-      return;
-    }
-    const success = (position: GeolocationPosition) => {
-      setCoords({
-        lat: position.coords.latitude,
-        lon: position.coords.longitude,
-      });
+    const geoOptions = {
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 0,
     };
-    const fail = (err: GeolocationPositionError) => {
-      setError(err.message);
-    };
-    navigator.geolocation.getCurrentPosition(success, fail);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        console.log("Got coords:", pos.coords);
+        setCoords({
+          lat: pos.coords.latitude,
+          lon: pos.coords.longitude,
+        });
+        setError(null);
+      },
+      (err) => {
+        console.error("Geolocation error:", err);
+        let message = "Unable to retrieve your location.";
+        if (err.code === 1) {
+          message = "Location access denied. Showing default location.";
+        } else if (err.code === 2) {
+          message = "Location unavailable. Showing default location.";
+        } else if (err.code === 3) {
+          message = "Location request timed out. Showing default location.";
+        }
+        setError(message);
+        setCoords({ lat: 41.2565, lon: -95.9345 });
+      },
+      geoOptions
+    );
   }, []);
 
   // fetch search suggestions as the query changes
@@ -59,19 +74,16 @@ export default function Index() {
 
   // close the search suggestions selector if clicking outside of it
   useEffect(() => {
-    if (displaySuggestions) {
-      document.addEventListener("mousedown", (event: MouseEvent) => {
-        handleClickOutside(event, "suggestions-listbox", setDisplaySuggestions);
-      });
-    } else {
-      document.removeEventListener("mousedown", (event: MouseEvent) => {
-        handleClickOutside(event, "suggestions-listbox", setDisplaySuggestions);
-      });
+    function handleDocClick(event: MouseEvent) {
+      handleClickOutside(event, "suggestions-listbox", setDisplaySuggestions);
     }
+
+    if (displaySuggestions) {
+      document.addEventListener("mousedown", handleDocClick);
+    }
+
     return () => {
-      document.removeEventListener("mousedown", (event: MouseEvent) => {
-        handleClickOutside(event, "suggestions-listbox", setDisplaySuggestions);
-      });
+      document.removeEventListener("mousedown", handleDocClick);
     };
   }, [displaySuggestions]);
 
@@ -150,7 +162,12 @@ export default function Index() {
           Search
         </button>
       </form>
-      <Weather lat={coords.lat} lon={coords.lon} />
+      {!coords ? (
+        // show skeleton while waiting on geolocation
+        <Skeleton />
+      ) : (
+        <Weather lat={coords.lat} lon={coords.lon} />
+      )}
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { buildForecastUrl, buildReverseGeocodeURL } from "../helperFunctions";
 import CurrentConditions from "./CurrentConditions";
 import DailyForecast from "./DailyForecast";
 import HourlyForecast from "./HourlyForecast";
+import Skeleton from "./Skeleton";
 
 interface NominatimResponse {
   address: {
@@ -72,7 +73,9 @@ export default function Weather({ lat, lon }: { lat: number; lon: number }) {
     fetchCity();
   }, [lat, lon]);
 
-  if (!data) return <p>Loading weather…</p>;
+  if (!data) {
+    return <Skeleton />; // whatever loading UI
+  }
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
