@@ -2,6 +2,8 @@
 
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-sans: "DM Sans", Verdana, Geneva, Tahoma, sans-serif;
   --font-display: "Bricolage Grotesque", Verdana, Geneva, Tahoma, sans-serif;
@@ -19,8 +21,6 @@
 
 html,
 body {
-  @apply bg-neutral-900;
-
   @media (prefers-color-scheme: dark) {
     color-scheme: dark;
   }
@@ -36,10 +36,10 @@ button[aria-expanded="true"] .btn-arrow {
   transform: rotate(180deg);
 }
 
-label:has(input[type="radio"]:checked) {
+/* label:has(input[type="radio"]:checked) {
   background: var(--color-neutral-700) center right 0.5rem no-repeat
     url("../public/images/icon-checkmark.svg");
-}
+} */
 
 .overflow-y-scroll {
   scrollbar-width: thin;

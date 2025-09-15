@@ -21,8 +21,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <Meta />
         <Links />
+        <script>
+          document.documentElement.classList.toggle( "dark", localStorage.theme
+          === "dark" || (!("theme" in localStorage) &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches), );
+        </script>
       </head>
-      <body>
+      <body className="bg-indigo-100 text-indigo-900 dark:bg-neutral-900 dark:text-neutral-50 transition-colors duration-300">
         {children}
         <ScrollRestoration />
         <Scripts />

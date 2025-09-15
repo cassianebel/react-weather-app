@@ -73,14 +73,14 @@ export default function DailyForecast({
   }, [displayDays]);
 
   return (
-    <section className="bg-neutral-800 border border-neutral-600 rounded-xl p-4 pe-0 min-h-full">
+    <section className="bg-indigo-200 dark:bg-neutral-800 rounded-xl p-4 pe-0 min-h-full transition-colors duration-300">
       <div className="flex items-center justify-between gap-4 relative pe-4">
         <h2 className="text-lg">Hourly forecast</h2>
         <button
           aria-controls="day-picker"
           aria-expanded={displayDays}
           onClick={() => setDisplayDays(!displayDays)}
-          className="flex items-center justify-center gap-2 bg-neutral-600 py-2 px-4 rounded-md cursor-pointer outline-white outline-offset-4"
+          className="flex items-center justify-center gap-2 bg-indigo-300 hover:bg-indigo-400 dark:bg-neutral-600 dark:hover:bg-neutral-700 py-2 px-4 rounded-md cursor-pointer outline-indigo-500 dark:outline-white outline-offset-4 transition-colors duration-300"
         >
           {hourlyDay}
           <svg
@@ -92,7 +92,7 @@ export default function DailyForecast({
             viewBox="0 0 13 8"
           >
             <path
-              fill="#fff"
+              fill="currentColor"
               d="M6.309 7.484 1.105 2.316c-.175-.14-.175-.421 0-.597l.704-.668a.405.405 0 0 1 .597 0l4.219 4.148 4.184-4.148c.175-.176.457-.176.597 0l.703.668c.176.176.176.457 0 .597L6.906 7.484a.405.405 0 0 1-.597 0Z"
             />
           </svg>
@@ -100,13 +100,15 @@ export default function DailyForecast({
         {displayDays ? (
           <fieldset
             id="day-picker"
-            className="absolute right-0 top-12 min-w-55 border border-neutral-600 bg-neutral-800 p-2 rounded-xl outline-white outline-offset-4 focus-within:outline-2 shadow-lg shadow-neutral-900/40"
+            className="absolute right-0 top-12 min-w-55 border border-indigo-300 bg-indigo-200 dark:border-neutral-600 dark:bg-neutral-800 p-2 rounded-xl outline-indigo-500 dark:outline-white outline-offset-4 focus-within:outline-2 shadow-lg dark:shadow-neutral-900/40 transition-colors duration-300"
           >
             <legend className="sr-only">Hourly Forecast Day</legend>
             {data.daily.time.map((day: string) => {
               return (
                 <div key={day}>
-                  <label className="block px-2 py-1 my-1 rounded-lg cursor-pointer hover:bg-neutral-700">
+                  <label
+                    className={`block px-2 py-1 my-1 rounded-lg cursor-pointer hover:bg-indigo-300 dark:hover:bg-neutral-700 transition-colors duration-300 ${day === hourlyDate ? "bg-[url(../public/images/icon-checkmark-copy.svg)]  dark:bg-[url(../public/images/icon-checkmark.svg)] bg-no-repeat bg-[center_right_.5rem] bg-indigo-300 dark:bg-neutral-700" : ""}`}
+                  >
                     <input
                       type="radio"
                       name="day"
@@ -127,7 +129,7 @@ export default function DailyForecast({
       </div>
       <ul
         ref={listRef}
-        className="max-h-137 overflow-y-scroll pe-4 mt-2 outline-white outline-offset-4 rounded-xl"
+        className="max-h-137 overflow-y-scroll pe-4 mt-2 outline-indigo-500 dark:outline-white outline-offset-4 rounded-xl"
       >
         {data.hourly.time.map((hour: string, index: number) => {
           if (hour.startsWith(hourlyDate)) {
@@ -145,7 +147,7 @@ export default function DailyForecast({
               <li
                 key={hour}
                 data-hour={hourRef}
-                className="flex items-center justify-between gap-2 bg-neutral-700 border border-neutral-600 rounded-xl p-2 my-3"
+                className="flex items-center justify-between gap-2 bg-indigo-300 dark:bg-neutral-700 border border-indigo-400 dark:border-neutral-600 rounded-xl p-2 my-3 last:mb-0"
               >
                 <img
                   src={`./images/${icon}`}

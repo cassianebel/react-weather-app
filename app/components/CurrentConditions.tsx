@@ -31,12 +31,14 @@ export default function CurrentConditions({
 
   return (
     <section>
-      <div className="flex flex-col md:flex-row gap-2 items-center justify-between text-center md:text-left rounded-2xl p-9 bg-blue-700 bg-[url(../images/bg-today-small.svg)] md:bg-[url(../images/bg-today-large.svg)] bg-no-repeat bg-bottom bg-cover">
+      <div className="flex flex-col md:flex-row gap-2 items-center justify-between text-center md:text-left rounded-2xl p-9 text-white bg-indigo-700 dark:bg-blue-700 bg-[url(../images/bg-today-small.svg)] md:bg-[url(../images/bg-today-large.svg)] bg-no-repeat bg-bottom bg-cover bg-blend-screen dark:bg-blend-normal">
         <div>
           <h2 className="text-2xl font-semibold mb-2">
             <span className="sr-only">Current Conditions for</span> {place}
           </h2>
-          <p className="text-neutral-200">{formattedDate}</p>
+          <p className="text-indigo-100 dark:text-neutral-200">
+            {formattedDate}
+          </p>
         </div>
         <p className="flex items-center justify-center gap-4">
           <span className="sr-only">{currentWeather[0]}</span>
@@ -54,7 +56,9 @@ export default function CurrentConditions({
       <ul className="grid grid-cols-2 md:grid-cols-4 gap-4 my-4">
         <Panel>
           <div className="p-2">
-            <h3 className="text-neutral-200 mb-4">Feels Like</h3>
+            <h3 className="text-indigo-700 dark:text-neutral-200 mb-4">
+              Feels Like
+            </h3>
             <p className="text-3xl font-light">
               {Math.round(data.current.apparent_temperature)}°
               <span className="sr-only">{units.temp[0].toUpperCase()}</span>
@@ -63,7 +67,9 @@ export default function CurrentConditions({
         </Panel>
         <Panel>
           <div className="p-2">
-            <h3 className="text-neutral-200 mb-4">Humidity</h3>
+            <h3 className="text-indigo-700 dark:text-neutral-200 mb-4">
+              Humidity
+            </h3>
             <p className="text-3xl font-light">
               {Math.round(data.current.relative_humidity_2m)}%
             </p>
@@ -71,7 +77,7 @@ export default function CurrentConditions({
         </Panel>
         <Panel>
           <div className="p-2">
-            <h3 className="text-neutral-200 mb-4">Wind</h3>
+            <h3 className="text-indigo-700 dark:text-neutral-200 mb-4">Wind</h3>
             <p className="text-3xl font-light">
               {Math.round(data.current.wind_speed_10m)} {units.wind}
             </p>
@@ -79,7 +85,9 @@ export default function CurrentConditions({
         </Panel>
         <Panel>
           <div className="p-2">
-            <h3 className="text-neutral-200 mb-4">Precipitation</h3>
+            <h3 className="text-indigo-700 dark:text-neutral-200 mb-4">
+              Precipitation
+            </h3>
             <p className="text-3xl font-light">
               {data.current.precipitation} {units.precip}
             </p>
