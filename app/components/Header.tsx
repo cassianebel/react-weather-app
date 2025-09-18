@@ -1,6 +1,7 @@
 import UnitsSelector from "./UnitsSelector";
 import { useUnits } from "../context/UnitsContext";
 import ThemeButton from "./ThemeButton";
+import FavoritesSelector from "./FavoritesSelector";
 
 export default function Header() {
   const { units } = useUnits();
@@ -34,6 +35,7 @@ export default function Header() {
           </clipPath>
         </defs>
       </svg>
+      <FavoritesSelector />
       <ThemeButton />
       <UnitsSelector />
     </header>

@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   isRouteErrorResponse,
   Links,
@@ -14,6 +15,21 @@ import Header from "./components/Header";
 import { UnitsProvider } from "./context/UnitsContext";
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  const [bgUrl, setBgUrl] = useState("");
+
+  useEffect(() => {
+    async function fetchBackground() {
+      try {
+        const res = await fetch("/api/unsplash");
+        const data = await res.json();
+        setBgUrl(data.urls.full);
+      } catch (error) {
+        console.error("Error fetching Unsplash image:", error);
+      }
+    }
+
+    fetchBackground();
+  }, []);
   return (
     <html lang="en">
       <head>
@@ -27,7 +43,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
           window.matchMedia("(prefers-color-scheme: dark)").matches), );
         </script>
       </head>
-      <body className="bg-indigo-100 text-indigo-900 dark:bg-neutral-900 dark:text-neutral-50 transition-colors duration-300">
+      <body
+        className={`${bgUrl ? `bg-[url(${bgUrl})]` : "bg-indigo-100 dark:bg-neutral-900"} text-indigo-900 dark:text-neutral-50 transition-colors duration-300 bg-cover bg-center`}
+      >
         {children}
         <ScrollRestoration />
         <Scripts />

@@ -1,6 +1,7 @@
 import { useState, useEffect, use } from "react";
 import { translateWeatherCode } from "../helperFunctions";
 import Panel from "./Panel";
+import FavoriteButton from "./FavoriteButton";
 
 export default function CurrentConditions({
   place,
@@ -14,10 +15,20 @@ export default function CurrentConditions({
   const [currentWeather, setCurrentWeather] = useState<any>(
     translateWeatherCode(data.current.weather_code)
   );
+  const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
     setCurrentWeather(translateWeatherCode(data.current.weather_code));
   }, [data]);
+
+  // check if the location is in favorites on initial load
+  useEffect(() => {
+    const storedFavorites = localStorage.getItem("favorite-locations");
+    if (storedFavorites) {
+      const favorites: string[] = JSON.parse(storedFavorites);
+      setIsFavorite(favorites.includes(place));
+    }
+  }, [place]);
 
   // get today's date
   const today = new Date();
@@ -29,12 +40,31 @@ export default function CurrentConditions({
   };
   const formattedDate = today.toLocaleDateString("en-US", options);
 
+  function toggleFavorite() {
+    const storedFavorites = localStorage.getItem("favorite-locations");
+    let favorites: string[] = storedFavorites
+      ? JSON.parse(storedFavorites)
+      : [];
+    if (favorites.includes(place)) {
+      favorites = favorites.filter((fav) => fav !== place);
+      setIsFavorite(false);
+    } else {
+      favorites.push(place);
+      setIsFavorite(true);
+    }
+    localStorage.setItem("favorite-locations", JSON.stringify(favorites));
+  }
+
   return (
     <section>
-      <div className="flex flex-col md:flex-row gap-2 items-center justify-between text-center md:text-left rounded-2xl p-9 text-white bg-indigo-700 dark:bg-blue-700 bg-[url(../images/bg-today-small.svg)] md:bg-[url(../images/bg-today-large.svg)] bg-no-repeat bg-bottom bg-cover bg-blend-screen dark:bg-blend-normal">
+      <div className="flex flex-col md:flex-row gap-2 items-center justify-between text-center md:text-left rounded-2xl p-9 ps-12 text-white bg-indigo-700 dark:bg-blue-700 bg-[url(../images/bg-today-small.svg)] md:bg-[url(../images/bg-today-large.svg)] bg-no-repeat bg-bottom bg-cover bg-blend-screen dark:bg-blend-normal">
         <div>
-          <h2 className="text-2xl font-semibold mb-2">
+          <h2 className="text-2xl font-semibold mb-2 relative">
             <span className="sr-only">Current Conditions for</span> {place}
+            <FavoriteButton
+              isFavorite={isFavorite}
+              toggleFavorite={toggleFavorite}
+            />
           </h2>
           <p className="text-indigo-100 dark:text-neutral-200">
             {formattedDate}
