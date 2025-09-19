@@ -1,6 +1,3 @@
-// /app/api/unsplash.js
-import fetch from "node-fetch";
-
 export default async function handler(req, res) {
   const accessKey = process.env.UNSPLASH_ACCESS_KEY;
 
@@ -12,9 +9,7 @@ export default async function handler(req, res) {
     const response = await fetch(
       "https://api.unsplash.com/photos/random?collections=CSiArET2uEg",
       {
-        headers: {
-          Authorization: `Client-ID ${accessKey}`,
-        },
+        headers: { Authorization: `Client-ID ${accessKey}` },
       }
     );
 

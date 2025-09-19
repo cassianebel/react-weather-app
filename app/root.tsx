@@ -17,19 +17,21 @@ import { UnitsProvider } from "./context/UnitsContext";
 export function Layout({ children }: { children: React.ReactNode }) {
   const [bgUrl, setBgUrl] = useState("");
 
-  useEffect(() => {
-    async function fetchBackground() {
-      try {
-        const res = await fetch("/api/unsplash");
-        const data = await res.json();
-        setBgUrl(data.urls.full);
-      } catch (error) {
-        console.error("Error fetching Unsplash image:", error);
-      }
-    }
+  // useEffect(() => {
+  //   fetch(
+  //     `https://api.unsplash.com/photos/random?collections=CSiArET2uEg&client_id=${import.meta.env.VITE_UNSPLASH_ACCESS_KEY}`
+  //   )
+  //     .then((res) => res.json())
+  //     .then((data) => setBgUrl(data.urls.full));
+  // }, []);
 
-    fetchBackground();
+  useEffect(() => {
+    fetch("/api/unsplash")
+      .then((res) => res.json())
+      .then((data) => setBgUrl(data.url))
+      .catch((err) => console.error("Error fetching Unsplash image:", err));
   }, []);
+
   return (
     <html lang="en">
       <head>
@@ -44,7 +46,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
         </script>
       </head>
       <body
-        className={`${bgUrl ? `bg-[url(${bgUrl})]` : "bg-indigo-100 dark:bg-neutral-900"} text-indigo-900 dark:text-neutral-50 transition-colors duration-300 bg-cover bg-center`}
+        className={`${bgUrl ? "" : "bg-indigo-100 dark:bg-neutral-900"} text-indigo-900 dark:text-neutral-50 transition-colors duration-300 bg-cover bg-center bg-fixed`}
+        style={{ backgroundImage: bgUrl ? `url(${bgUrl})` : "unset" }}
       >
         {children}
         <ScrollRestoration />
