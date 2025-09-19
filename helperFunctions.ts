@@ -47,7 +47,10 @@ export function handleClickOutside(
   }
 }
 
-export function translateDateName(dateString: string, format: string = "long") {
+export function translateDateName(
+  dateString: string,
+  format: "long" | "short" = "long"
+): string {
   // Parse manually so there's no timezone conversion
   const [year, month, date] = dateString.split("-").map(Number);
   const localDate = new Date(year, month - 1, date);
