@@ -4,6 +4,7 @@ import {
   translateDateName,
   handleClickOutside,
 } from "../helperFunctions";
+import { AnimatePresence, motion } from "framer-motion";
 
 const getLocalDate = () => {
   const d = new Date();
@@ -97,39 +98,47 @@ export default function DailyForecast({
             />
           </svg>
         </button>
-        {displayDays ? (
-          <fieldset
-            id="day-picker"
-            className="absolute right-0 top-12 min-w-55 border border-indigo-300 bg-indigo-200 dark:border-neutral-600 dark:bg-neutral-800 p-2 rounded-xl outline-indigo-500 dark:outline-white outline-offset-4 focus-within:outline-2 shadow-lg dark:shadow-neutral-900/40 transition-colors duration-300"
-          >
-            <legend className="sr-only">Hourly Forecast Day</legend>
-            {data.daily.time.map((day: string) => {
-              return (
-                <div key={day}>
-                  <label
-                    className={`block px-2 py-1 my-1 rounded-lg cursor-pointer hover:bg-indigo-300 dark:hover:bg-neutral-700 transition-colors duration-300 ${
-                      day === hourlyDate
-                        ? "bg-[url(../public/images/icon-checkmark-copy.svg)]  dark:bg-[url(../public/images/icon-checkmark.svg)] bg-no-repeat bg-[center_right_.5rem] bg-indigo-300 dark:bg-neutral-700"
-                        : ""
-                    }`}
-                  >
-                    <input
-                      type="radio"
-                      name="day"
-                      value={day}
-                      checked={day === hourlyDate}
-                      onChange={() => setHourlyDate(day)}
-                      className="sr-only"
-                    />
-                    {translateDateName(day)}
-                  </label>
-                </div>
-              );
-            })}
-          </fieldset>
-        ) : (
-          ""
-        )}
+        <AnimatePresence>
+          {displayDays && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.25 }}
+              className="absolute right-4 top-12"
+            >
+              <fieldset
+                id="day-picker"
+                className=" min-w-55 border border-indigo-300 bg-indigo-200 dark:border-neutral-600 dark:bg-neutral-800 p-2 rounded-xl outline-indigo-500 dark:outline-white outline-offset-4 focus-within:outline-2 shadow-lg dark:shadow-neutral-900/40 transition-colors duration-300"
+              >
+                <legend className="sr-only">Hourly Forecast Day</legend>
+                {data.daily.time.map((day: string) => {
+                  return (
+                    <div key={day}>
+                      <label
+                        className={`block px-2 py-1 my-1 rounded-lg cursor-pointer hover:bg-indigo-300 dark:hover:bg-neutral-700 transition-colors duration-300 ${
+                          day === hourlyDate
+                            ? "bg-[url(../public/images/icon-checkmark-copy.svg)]  dark:bg-[url(../public/images/icon-checkmark.svg)] bg-no-repeat bg-[center_right_.5rem] bg-indigo-300 dark:bg-neutral-700"
+                            : ""
+                        }`}
+                      >
+                        <input
+                          type="radio"
+                          name="day"
+                          value={day}
+                          checked={day === hourlyDate}
+                          onChange={() => setHourlyDate(day)}
+                          className="sr-only"
+                        />
+                        {translateDateName(day)}
+                      </label>
+                    </div>
+                  );
+                })}
+              </fieldset>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
       <ul
         ref={listRef}

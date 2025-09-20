@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useUnits } from "../context/UnitsContext";
 import RadioFieldset from "./RadioFieldset";
 import { handleClickOutside } from "../helperFunctions";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function UnitsSelector() {
   const [displayUnits, setDisplayUnits] = useState(false);
@@ -90,78 +91,82 @@ export default function UnitsSelector() {
           />
         </svg>
       </button>
-      {displayUnits ? (
-        <div
-          id="settings"
-          className="absolute right-0 min-w-55 border bg-indigo-200 border-indigo-300 dark:border-neutral-600 dark:text-neutral-50 dark:bg-neutral-800 mt-2 rounded-xl z-10 shadow-lg dark:shadow-neutral-900/40"
-        >
-          <button
-            onClick={toggleUnits()}
-            className="flex justify-self-stretch text-left box-border px-2 py-1 mx-2 my-2 rounded-lg cursor-pointer hover:bg-indigo-300 dark:hover:bg-neutral-700 outline-indigo-500 dark:outline-white outline-offset-4 transition-colors duration-300"
+      <AnimatePresence>
+        {displayUnits && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.25 }}
+            id="settings"
+            className="absolute right-0 min-w-55 border bg-indigo-200 border-indigo-300 dark:border-neutral-600 dark:text-neutral-50 dark:bg-neutral-800 mt-2 rounded-xl z-10 shadow-lg dark:shadow-neutral-900/40"
           >
-            {units.all === "imperial"
-              ? "Switch to Metric"
-              : "Switch to Imperial"}
-          </button>
-          <RadioFieldset
-            legend="Temperature"
-            changeHandler={unitChangeHandler()}
-            options={[
-              {
-                name: "temp",
-                value: "celsius",
-                label: "Celsius (°C)",
-                checked: units.temp === "celsius",
-              },
-              {
-                name: "temp",
-                value: "fahrenheit",
-                label: "Fahrenheit (°F)",
-                checked: units.temp === "fahrenheit",
-              },
-            ]}
-          />
-          <RadioFieldset
-            legend="Wind Speed"
-            changeHandler={unitChangeHandler()}
-            options={[
-              {
-                name: "wind",
-                value: "kmh",
-                label: "km/h",
-                checked: units.wind === "kmh",
-              },
-              {
-                name: "wind",
-                value: "mph",
-                label: "mph",
-                checked: units.wind === "mph",
-              },
-            ]}
-          />
+            <button
+              onClick={toggleUnits()}
+              className="flex justify-self-stretch text-left box-border px-2 py-1 mx-2 my-2 rounded-lg cursor-pointer hover:bg-indigo-300 dark:hover:bg-neutral-700 outline-indigo-500 dark:outline-white outline-offset-4 transition-colors duration-300"
+            >
+              {units.all === "imperial"
+                ? "Switch to Metric"
+                : "Switch to Imperial"}
+            </button>
+            <RadioFieldset
+              legend="Temperature"
+              changeHandler={unitChangeHandler()}
+              options={[
+                {
+                  name: "temp",
+                  value: "celsius",
+                  label: "Celsius (°C)",
+                  checked: units.temp === "celsius",
+                },
+                {
+                  name: "temp",
+                  value: "fahrenheit",
+                  label: "Fahrenheit (°F)",
+                  checked: units.temp === "fahrenheit",
+                },
+              ]}
+            />
+            <RadioFieldset
+              legend="Wind Speed"
+              changeHandler={unitChangeHandler()}
+              options={[
+                {
+                  name: "wind",
+                  value: "kmh",
+                  label: "km/h",
+                  checked: units.wind === "kmh",
+                },
+                {
+                  name: "wind",
+                  value: "mph",
+                  label: "mph",
+                  checked: units.wind === "mph",
+                },
+              ]}
+            />
 
-          <RadioFieldset
-            legend="Percipitation"
-            changeHandler={unitChangeHandler()}
-            options={[
-              {
-                name: "precip",
-                value: "mm",
-                label: "Millimeters (mm)",
-                checked: units.precip === "mm",
-              },
-              {
-                name: "precip",
-                value: "inch",
-                label: "Inches (in)",
-                checked: units.precip === "inch",
-              },
-            ]}
-          />
-        </div>
-      ) : (
-        ""
-      )}
+            <RadioFieldset
+              legend="Percipitation"
+              changeHandler={unitChangeHandler()}
+              options={[
+                {
+                  name: "precip",
+                  value: "mm",
+                  label: "Millimeters (mm)",
+                  checked: units.precip === "mm",
+                },
+                {
+                  name: "precip",
+                  value: "inch",
+                  label: "Inches (in)",
+                  checked: units.precip === "inch",
+                },
+              ]}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

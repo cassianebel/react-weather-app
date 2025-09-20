@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "framer-motion": "^12.23.16",
     "isbot": "^5.1.27",
     "next": "^15.5.3",
     "openmeteo": "^1.2.0",

@@ -3,6 +3,7 @@ import Weather from "../components/Weather";
 import { handleClickOutside } from "../helperFunctions";
 import Skeleton from "../components/Skeleton";
 import { useRouter } from "next/router";
+import { AnimatePresence, motion } from "framer-motion";
 
 interface Suggestion {
   name: string;
@@ -137,36 +138,41 @@ export default function Index() {
             aria-controls="suggestions-listbox"
             aria-expanded={displaySuggestions}
           />
-
-          {displaySuggestions && suggestions.length > 0 && (
-            <div
-              id="suggestions-listbox"
-              role="listbox"
-              className="absolute mt-3 p-3 bg-indigo-200 dark:bg-neutral-800 rounded-xl w-full min-h-40"
-            >
-              {suggestions.map((suggestion) => (
-                <button
-                  key={`${suggestion.latitude}-${suggestion.longitude}`}
-                  role="option"
-                  aria-selected="false"
-                  onClick={() => {
-                    setCoords({
-                      lat: suggestion.latitude,
-                      lon: suggestion.longitude,
-                    });
-                    setQuery(
-                      `${suggestion.name}, ${suggestion.admin1 || suggestion.country}`
-                    );
-                    setDisplaySuggestions(false);
-                    setSuggestions([]);
-                  }}
-                  className="block w-full text-left px-3 py-2 rounded-lg border border-transparent hover:bg-indigo-300 dark:hover:bg-neutral-700 dark:hover:border-neutral-600 dark:focus:bg-neutral-700 cursor-pointer outline-indigo-500 dark:outline-white outline-offset-4"
-                >
-                  {suggestion.name}, {suggestion.admin1 || suggestion.country}
-                </button>
-              ))}
-            </div>
-          )}
+          <AnimatePresence>
+            {displaySuggestions && suggestions.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.25 }}
+                id="suggestions-listbox"
+                role="listbox"
+                className="absolute mt-3 p-3 bg-indigo-200 dark:bg-neutral-800 rounded-xl w-full min-h-40"
+              >
+                {suggestions.map((suggestion) => (
+                  <button
+                    key={`${suggestion.latitude}-${suggestion.longitude}`}
+                    role="option"
+                    aria-selected="false"
+                    onClick={() => {
+                      setCoords({
+                        lat: suggestion.latitude,
+                        lon: suggestion.longitude,
+                      });
+                      setQuery(
+                        `${suggestion.name}, ${suggestion.admin1 || suggestion.country}`
+                      );
+                      setDisplaySuggestions(false);
+                      setSuggestions([]);
+                    }}
+                    className="block w-full text-left px-3 py-2 rounded-lg border border-transparent hover:bg-indigo-300 dark:hover:bg-neutral-700 dark:hover:border-neutral-600 dark:focus:bg-neutral-700 cursor-pointer outline-indigo-500 dark:outline-white outline-offset-4"
+                  >
+                    {suggestion.name}, {suggestion.admin1 || suggestion.country}
+                  </button>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
         <button
           type="submit"
