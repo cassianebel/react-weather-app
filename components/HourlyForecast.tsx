@@ -73,14 +73,14 @@ export default function DailyForecast({
   }, [displayDays]);
 
   return (
-    <section className="bg-indigo-200 dark:bg-neutral-800 rounded-xl p-4 pe-0 min-h-full transition-colors duration-300">
+    <section className="bg-indigo-200/50 backdrop-blur-xl dark:bg-neutral-800 rounded-xl p-4 pe-0 min-h-full transition-colors duration-300">
       <div className="flex items-center justify-between gap-4 relative pe-4">
         <h2 className="text-lg">Hourly forecast</h2>
         <button
           aria-controls="day-picker"
           aria-expanded={displayDays}
           onClick={() => setDisplayDays(!displayDays)}
-          className="flex items-center justify-center gap-2 bg-indigo-300 hover:bg-indigo-400 dark:bg-neutral-600 dark:hover:bg-neutral-700 py-2 px-4 rounded-md cursor-pointer outline-indigo-500 dark:outline-white outline-offset-4 transition-colors duration-300"
+          className="flex items-center justify-center gap-2 bg-indigo-200/70 hover:bg-indigo-300 dark:bg-neutral-600 dark:hover:bg-neutral-700 py-2 px-4 rounded-md cursor-pointer outline-indigo-500 dark:outline-white outline-offset-4 transition-colors duration-300"
         >
           {hourlyDay}
           <svg
@@ -107,7 +107,11 @@ export default function DailyForecast({
               return (
                 <div key={day}>
                   <label
-                    className={`block px-2 py-1 my-1 rounded-lg cursor-pointer hover:bg-indigo-300 dark:hover:bg-neutral-700 transition-colors duration-300 ${day === hourlyDate ? "bg-[url(../public/images/icon-checkmark-copy.svg)]  dark:bg-[url(../public/images/icon-checkmark.svg)] bg-no-repeat bg-[center_right_.5rem] bg-indigo-300 dark:bg-neutral-700" : ""}`}
+                    className={`block px-2 py-1 my-1 rounded-lg cursor-pointer hover:bg-indigo-300 dark:hover:bg-neutral-700 transition-colors duration-300 ${
+                      day === hourlyDate
+                        ? "bg-[url(../public/images/icon-checkmark-copy.svg)]  dark:bg-[url(../public/images/icon-checkmark.svg)] bg-no-repeat bg-[center_right_.5rem] bg-indigo-300 dark:bg-neutral-700"
+                        : ""
+                    }`}
                   >
                     <input
                       type="radio"
@@ -147,7 +151,7 @@ export default function DailyForecast({
               <li
                 key={hour}
                 data-hour={hourRef}
-                className="flex items-center justify-between gap-2 bg-indigo-300 dark:bg-neutral-700 border border-indigo-400 dark:border-neutral-600 rounded-xl p-2 my-3 last:mb-0"
+                className="flex items-center justify-between gap-2 bg-indigo-200/30 dark:bg-neutral-700 border border-indigo-300 dark:border-neutral-600 rounded-xl p-2 my-3 last:mb-0"
               >
                 <img
                   src={`./images/${icon}`}

@@ -38,7 +38,7 @@ export default function FavoritesSelector() {
         aria-controls="favorites"
         aria-expanded={displayFavorites}
         onClick={() => setDisplayFavorites(!displayFavorites)}
-        className="p-3 rounded-lg bg-indigo-200 hover:bg-indigo-300 dark:bg-neutral-800 dark:hover:bg-neutral-700 text-indigo-800 dark:text-neutral-50 transition-colors duration-300 cursor-pointer outline-indigo-500 dark:outline-white outline-offset-4"
+        className="p-3 rounded-lg bg-indigo-200/50 backdrop-blur-xl hover:bg-indigo-300 dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:text-neutral-50 transition-colors duration-300 cursor-pointer outline-indigo-500 dark:outline-white outline-offset-4"
       >
         <MdFavorite />
         <span className="sr-only">Favorites</span>
@@ -46,7 +46,7 @@ export default function FavoritesSelector() {
       {displayFavorites && (
         <div
           id="favorites"
-          className="absolute right-0 min-w-72 border bg-indigo-200 text-indigo-800 border-indigo-300 dark:border-neutral-600 dark:text-neutral-50 dark:bg-neutral-800 mt-2 p-1 rounded-xl z-10 shadow-lg dark:shadow-neutral-900/40"
+          className="absolute left-0 min-w-64 border bg-indigo-200  border-indigo-300 dark:border-neutral-600 dark:text-neutral-50 dark:bg-neutral-800 mt-2 p-1 rounded-xl z-10 shadow-lg dark:shadow-neutral-900/40"
         >
           {favorites.length ? (
             favorites.map((fav) => (

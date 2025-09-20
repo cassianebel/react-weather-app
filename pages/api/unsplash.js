@@ -6,10 +6,11 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Get orientation from query params, default to 'landscape'
-    const { orientation = "landscape" } = req.query;
+    // Get orientation and theme from query params, default to 'landscape'
+    const { orientation = "landscape", theme = "dark" } = req.query;
+    const collection = theme === "dark" ? "QufHUhdufck" : "sMKf4UUXRow";
     const response = await fetch(
-      `https://api.unsplash.com/photos/random?collections=CSiArET2uEg&orientation=${orientation}`,
+      `https://api.unsplash.com/photos/random?collections=${collection}&orientation=${orientation}`,
       {
         headers: { Authorization: `Client-ID ${accessKey}` },
       }

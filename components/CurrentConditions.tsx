@@ -86,7 +86,7 @@ export default function CurrentConditions({
       <ul className="grid grid-cols-2 md:grid-cols-4 gap-4 my-4">
         <Panel>
           <div className="p-2">
-            <h3 className="text-indigo-700 dark:text-neutral-200 mb-4">
+            <h3 className="text-indigo-900 dark:text-neutral-200 mb-4">
               Feels Like
             </h3>
             <p className="text-3xl font-light">
@@ -97,7 +97,7 @@ export default function CurrentConditions({
         </Panel>
         <Panel>
           <div className="p-2">
-            <h3 className="text-indigo-700 dark:text-neutral-200 mb-4">
+            <h3 className="text-indigo-900 dark:text-neutral-200 mb-4">
               Humidity
             </h3>
             <p className="text-3xl font-light">
@@ -107,7 +107,7 @@ export default function CurrentConditions({
         </Panel>
         <Panel>
           <div className="p-2">
-            <h3 className="text-indigo-700 dark:text-neutral-200 mb-4">Wind</h3>
+            <h3 className="text-indigo-900 dark:text-neutral-200 mb-4">Wind</h3>
             <p className="text-3xl font-light">
               {Math.round(data.current.wind_speed_10m)} {units.wind}
             </p>
@@ -115,7 +115,7 @@ export default function CurrentConditions({
         </Panel>
         <Panel>
           <div className="p-2">
-            <h3 className="text-indigo-700 dark:text-neutral-200 mb-4">
+            <h3 className="text-indigo-900 dark:text-neutral-200 mb-4">
               Precipitation
             </h3>
             <p className="text-3xl font-light">

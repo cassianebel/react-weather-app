@@ -7,9 +7,9 @@ import BGImageButton from "./BGImageButton";
 export default function Header() {
   const { units } = useUnits();
   return (
-    <header className="flex items-center justify-between gap-4 p-4 md:p-6">
+    <header className="sm:flex items-center justify-between gap-4 p-6">
       <svg
-        className="max-w-[150px] md:max-w-[200px] me-auto"
+        className="max-w-200px mx-auto sm:ms-0 sm:me-auto mb-4 sm:mb-0"
         xmlns="http://www.w3.org/2000/svg"
         width="197"
         height="40"
@@ -36,10 +36,12 @@ export default function Header() {
           </clipPath>
         </defs>
       </svg>
-      <FavoritesSelector />
-      <ThemeButton />
-      <BGImageButton />
-      <UnitsSelector />
+      <div className="flex items-center justify-center gap-4">
+        <FavoritesSelector />
+        <ThemeButton />
+        <BGImageButton />
+        <UnitsSelector />
+      </div>
     </header>
   );
 }

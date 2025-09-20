@@ -9,7 +9,8 @@ export default function Layout({ children }: { children: ReactNode }) {
   const orientation = useOrientation();
 
   useEffect(() => {
-    fetch(`/api/unsplash?orientation=${orientation}`)
+    const theme = localStorage.getItem("theme");
+    fetch(`/api/unsplash?orientation=${orientation}&theme=${theme}`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -30,7 +31,7 @@ export default function Layout({ children }: { children: ReactNode }) {
 
   return (
     <div
-      className={`text-indigo-900 dark:text-neutral-50 transition-colors duration-300 bg-cover bg-center bg-fixed min-h-[300vh] overflow-scroll sticky bottom-0 ${
+      className={`text-indigo-950 dark:text-neutral-50 transition-colors duration-300 bg-cover bg-center bg-fixed min-h-[300vh] overflow-scroll sticky bottom-0 ${
         !showImage ? "bg-indigo-100 dark:bg-neutral-900" : ""
       }`}
       style={{ backgroundImage: showImage ? `url(${bgUrl})` : undefined }}
