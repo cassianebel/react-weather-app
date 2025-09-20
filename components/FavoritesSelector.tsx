@@ -1,18 +1,11 @@
 import { useState, useEffect } from "react";
 import { MdFavorite } from "react-icons/md";
 import { handleClickOutside } from "../helperFunctions";
+import { useFavorites } from "context/FavoritesContext";
 
 export default function FavoritesSelector() {
+  const { favorites } = useFavorites();
   const [displayFavorites, setDisplayFavorites] = useState(false);
-  const [favorites, setFavorites] = useState<{ name: string; lat: number; lon: number }[]>([]);
-
-  // get favorites from localStorage on initial load
-  useEffect(() => {
-    const storedFavorites = localStorage.getItem("favorite-locations");
-    if (storedFavorites) {
-      setFavorites(JSON.parse(storedFavorites));
-    }
-  }, []);
 
   // close the units selector if clicking outside of it
   useEffect(() => {

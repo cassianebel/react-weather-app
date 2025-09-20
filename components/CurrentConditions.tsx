@@ -69,8 +69,7 @@ export default function CurrentConditions({
           <h2 className="text-2xl font-semibold mb-2 relative">
             <span className="sr-only">Current Conditions for</span> {place.name}
             <FavoriteButton
-              isFavorite={isFavorite}
-              toggleFavorite={toggleFavorite}
+              place={place}
             />
           </h2>
           <p className="text-indigo-100 dark:text-neutral-200">

@@ -9,14 +9,14 @@ const BackgroundContext = createContext<BackgroundContextType | undefined>(
   undefined
 );
 
-export const useBackground = () => {
+export function useBackground() {
   const context = useContext(BackgroundContext);
   if (!context)
     throw new Error("useBackground must be used within a BackgroundProvider");
   return context;
-};
+}
 
-export const BackgroundProvider = ({ children }: { children: ReactNode }) => {
+export function BackgroundProvider({ children }: { children: ReactNode }) {
   const [showImage, setShowImage] = useState(true);
 
   const toggleImage = () => setShowImage((prev) => !prev);
@@ -26,4 +26,4 @@ export const BackgroundProvider = ({ children }: { children: ReactNode }) => {
       {children}
     </BackgroundContext.Provider>
   );
-};
+}
