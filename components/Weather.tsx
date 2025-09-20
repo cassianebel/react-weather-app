@@ -67,8 +67,8 @@ export default function Weather({ lat, lon }: { lat: number; lon: number }) {
       const res = await fetch(url);
       const data: NominatimResponse = await res.json();
       const address = data.address;
-      const place = formatLocation(address);
-      setPlace(place);
+      const name = formatLocation(address);
+      setPlace({ name: name, lat: lat, lon: lon });
     }
     fetchCity();
   }, [lat, lon]);

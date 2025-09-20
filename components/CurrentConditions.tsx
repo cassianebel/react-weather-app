@@ -8,14 +8,17 @@ export default function CurrentConditions({
   data,
   units,
 }: {
-  place: string;
+  place: {name: string, lat: number, lon: number};
   data: any;
   units: { temp: string; wind: string; precip: string };
 }) {
+  if (!place) return null;
   const [currentWeather, setCurrentWeather] = useState<any>(
     translateWeatherCode(data.current.weather_code)
   );
   const [isFavorite, setIsFavorite] = useState(false);
+
+  type FavoriteLocation = { name: string; lat: number; lon: number };
 
   useEffect(() => {
     setCurrentWeather(translateWeatherCode(data.current.weather_code));
@@ -25,8 +28,8 @@ export default function CurrentConditions({
   useEffect(() => {
     const storedFavorites = localStorage.getItem("favorite-locations");
     if (storedFavorites) {
-      const favorites: string[] = JSON.parse(storedFavorites);
-      setIsFavorite(favorites.includes(place));
+      const favorites: FavoriteLocation[] = JSON.parse(storedFavorites);
+      setIsFavorite(favorites.some((fav) => fav.name === place.name));
     }
   }, [place]);
 
@@ -42,16 +45,20 @@ export default function CurrentConditions({
 
   function toggleFavorite() {
     const storedFavorites = localStorage.getItem("favorite-locations");
-    let favorites: string[] = storedFavorites
+    let favorites: FavoriteLocation[] = storedFavorites
       ? JSON.parse(storedFavorites)
       : [];
-    if (favorites.includes(place)) {
-      favorites = favorites.filter((fav) => fav !== place);
+
+    const exists = favorites.some((fav) => fav.name === place.name);
+
+    if (exists) {
+      favorites = favorites.filter((fav) => fav.name !== place.name);
       setIsFavorite(false);
     } else {
-      favorites.push(place);
+      favorites.push({ name: place.name, lat: place.lat, lon: place.lon });
       setIsFavorite(true);
     }
+
     localStorage.setItem("favorite-locations", JSON.stringify(favorites));
   }
 
@@ -60,7 +67,7 @@ export default function CurrentConditions({
       <div className="flex flex-col md:flex-row gap-2 items-center justify-between text-center md:text-left rounded-2xl p-9 ps-12 text-white bg-indigo-700 dark:bg-blue-700 bg-[url(/images/bg-today-small.svg)] md:bg-[url(/images/bg-today-large.svg)] bg-no-repeat bg-bottom bg-cover bg-blend-screen dark:bg-blend-normal">
         <div>
           <h2 className="text-2xl font-semibold mb-2 relative">
-            <span className="sr-only">Current Conditions for</span> {place}
+            <span className="sr-only">Current Conditions for</span> {place.name}
             <FavoriteButton
               isFavorite={isFavorite}
               toggleFavorite={toggleFavorite}

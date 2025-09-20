@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Weather from "../components/Weather";
 import { handleClickOutside } from "../helperFunctions";
 import Skeleton from "../components/Skeleton";
+import { useRouter } from "next/router";
 
 interface Suggestion {
   name: string;
@@ -20,8 +21,13 @@ export default function Index() {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  // get user's location on initial load
+  const router = useRouter();
+  const { lat, lon } = router.query;
+
+  // get user's location on initial load if no lat/lon in URL
   useEffect(() => {
+    if (!router.isReady) return;
+    if (lat && lon) return;
     const geoOptions = {
       enableHighAccuracy: true,
       timeout: 5000,
@@ -52,6 +58,13 @@ export default function Index() {
       geoOptions
     );
   }, []);
+
+    // if lat/lon are present in the URL, use them
+  useEffect(() => {
+    if (lat && lon) {
+      setCoords({ lat: Number(lat), lon: Number(lon) });
+    }
+  }, [lat, lon]);
 
   // fetch search suggestions as the query changes
   useEffect(() => {

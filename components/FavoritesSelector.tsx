@@ -4,7 +4,7 @@ import { handleClickOutside } from "../helperFunctions";
 
 export default function FavoritesSelector() {
   const [displayFavorites, setDisplayFavorites] = useState(false);
-  const [favorites, setFavorites] = useState<string[]>([]);
+  const [favorites, setFavorites] = useState<{ name: string; lat: number; lon: number }[]>([]);
 
   // get favorites from localStorage on initial load
   useEffect(() => {
@@ -51,14 +51,14 @@ export default function FavoritesSelector() {
           {favorites.length ? (
             favorites.map((fav) => (
               <button
-                key={fav}
+                key={fav.name}
                 className="block w-full text-left px-4 py-2 rounded-lg hover:bg-indigo-300 dark:hover:bg-neutral-700 transition-colors duration-300"
                 onClick={() => {
-                  window.location.href = `/?place=${encodeURIComponent(fav)}`;
+                  window.location.href = `/?lat=${fav.lat}&lon=${fav.lon}`;
                   setDisplayFavorites(false);
                 }}
               >
-                {fav}
+                {fav.name}
               </button>
             ))
           ) : (
