@@ -1,6 +1,8 @@
 import React, { useEffect, useState, type ReactNode } from "react";
+import { useBackground } from "../context/BackgroundContext";
 
 export default function Layout({ children }: { children: ReactNode }) {
+  const { showImage } = useBackground();
   const [bgUrl, setBgUrl] = useState("");
 
   useEffect(() => {
@@ -22,9 +24,9 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <div
       className={`text-indigo-900 dark:text-neutral-50 transition-colors duration-300 bg-cover bg-center bg-fixed ${
-        !bgUrl ? "bg-indigo-100 dark:bg-neutral-900" : ""
+        !showImage ? "bg-indigo-100 dark:bg-neutral-900" : ""
       }`}
-      style={{ backgroundImage: bgUrl ? `url(${bgUrl})` : undefined }}
+      style={{ backgroundImage: showImage ? `url(${bgUrl})` : undefined }}
     >
       {children}
     </div>

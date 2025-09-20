@@ -1,6 +1,6 @@
 import { IoInvertModeOutline } from "react-icons/io5";
 
-export default function ThemeToggle() {
+export default function ThemeButton() {
   const toggle = () => {
     const currentTheme = document.documentElement.classList.contains("dark")
       ? "dark"

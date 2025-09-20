@@ -46,13 +46,13 @@ export default function FavoritesSelector() {
       {displayFavorites && (
         <div
           id="favorites"
-          className="absolute right-0 min-w-72 border bg-indigo-200 text-indigo-800 border-indigo-300 dark:border-neutral-600 dark:text-neutral-50 dark:bg-neutral-800 mt-2 rounded-xl z-10 shadow-lg dark:shadow-neutral-900/40"
+          className="absolute right-0 min-w-72 border bg-indigo-200 text-indigo-800 border-indigo-300 dark:border-neutral-600 dark:text-neutral-50 dark:bg-neutral-800 mt-2 p-1 rounded-xl z-10 shadow-lg dark:shadow-neutral-900/40"
         >
           {favorites.length ? (
             favorites.map((fav) => (
               <button
                 key={fav}
-                className="block w-full text-left px-4 py-2 hover:bg-indigo-300 dark:hover:bg-neutral-700 transition-colors duration-300"
+                className="block w-full text-left px-4 py-2 rounded-lg hover:bg-indigo-300 dark:hover:bg-neutral-700 transition-colors duration-300"
                 onClick={() => {
                   window.location.href = `/?place=${encodeURIComponent(fav)}`;
                   setDisplayFavorites(false);

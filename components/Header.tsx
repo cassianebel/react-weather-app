@@ -2,6 +2,7 @@ import UnitsSelector from "./UnitsSelector";
 import { useUnits } from "../context/UnitsContext";
 import ThemeButton from "./ThemeButton";
 import FavoritesSelector from "./FavoritesSelector";
+import BGImageButton from "./BGImageButton";
 
 export default function Header() {
   const { units } = useUnits();
@@ -37,6 +38,7 @@ export default function Header() {
       </svg>
       <FavoritesSelector />
       <ThemeButton />
+      <BGImageButton />
       <UnitsSelector />
     </header>
   );
