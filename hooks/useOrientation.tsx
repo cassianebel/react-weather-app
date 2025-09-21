@@ -2,13 +2,20 @@ import { useState, useEffect } from "react";
 
 export default function useOrientation() {
   const [orientation, setOrientation] = useState<"portrait" | "landscape">(
-    "landscape"
+    () => {
+      if (typeof window !== "undefined") {
+        return window.innerHeight > window.innerWidth
+          ? "portrait"
+          : "landscape";
+      }
+      return "landscape";
+    }
   );
 
   useEffect(() => {
     const getOrientation = () =>
       window.innerHeight > window.innerWidth ? "portrait" : "landscape";
-    console.log(window.innerHeight, window.innerWidth);
+
     setOrientation(getOrientation());
 
     const handleResize = () => {
@@ -17,7 +24,11 @@ export default function useOrientation() {
     };
 
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    window.addEventListener("orientationchange", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("orientationchange", handleResize);
+    };
   }, []);
 
   return orientation;
