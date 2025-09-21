@@ -21,7 +21,12 @@ export default function DailyForecast({
           return (
             <Panel key={day}>
               <div className="flex flex-col items-center gap-2">
-                <h3>{translateDateName(day, "short")}</h3>
+                <h3>
+                  <span aria-hidden>{translateDateName(day, "short")}</span>
+                  <span className="sr-only">
+                    {translateDateName(day, "long")}
+                  </span>
+                </h3>
                 <span className="sr-only">{weather}</span>
                 <img
                   src={`./images/${icon}`}

@@ -1,14 +1,15 @@
-import UnitsSelector from "./UnitsSelector";
 import { useUnits } from "../context/UnitsContext";
-import ThemeButton from "./ThemeButton";
+import UnitsSelector from "./UnitsSelector";
 import FavoritesSelector from "./FavoritesSelector";
 import BGImageButton from "./BGImageButton";
+import ThemeButton from "./ThemeButton";
 
 export default function Header() {
   const { units } = useUnits();
   return (
     <header className="sm:flex items-center justify-between gap-4 p-6">
       <svg
+        aria-label="Weather Now logo"
         className="max-w-200px mx-auto sm:ms-0 sm:me-auto mb-4 sm:mb-0"
         xmlns="http://www.w3.org/2000/svg"
         width="197"

@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Get orientation and theme from query params, default to 'landscape'
+    // Get orientation and theme from query params, default to 'landscape' and 'dark'
     const { orientation = "landscape", theme = "dark" } = req.query;
     const collection = theme === "dark" ? "QufHUhdufck" : "sMKf4UUXRow";
     const response = await fetch(

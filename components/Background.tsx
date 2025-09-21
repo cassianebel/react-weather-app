@@ -5,7 +5,7 @@ import useOrientation from "../hooks/useOrientation";
 export default function Layout({ children }: { children: ReactNode }) {
   const { showImage } = useBackground();
   const [bgUrl, setBgUrl] = useState("");
-  const [credits, setCredits] = useState({ name: "", profileLink: ""})
+  const [credits, setCredits] = useState({ name: "", profileLink: "", alt: ""})
   const orientation = useOrientation();
 
   useEffect(() => {
@@ -15,7 +15,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       .then((data) => {
         console.log(data);
         setBgUrl(data.data.urls.full);
-        setCredits({ name: data.data.user.name, profileLink: data.data.user.links.html });
+        setCredits({ name: data.data.user.name, profileLink: data.data.user.links.html, alt: data.data.alt_description });
       })
       .catch((err) => console.error(err));
   }, []);
@@ -39,6 +39,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       {children}
       {showImage && (
           <footer>
+            <p className="sr-only">Background image: {credits.alt}</p>
             <p className="text-xs text-center py-8 ">
               Photo by{" "}
               <a href={`${credits.profileLink}?utm_source=cassia_weather_app&utm_medium=referral`} className="underline">

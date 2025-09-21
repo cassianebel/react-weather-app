@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import Weather from "../components/Weather";
 import { handleClickOutside } from "../helperFunctions";
-import Skeleton from "../components/Skeleton";
 import { useRouter } from "next/router";
 import { AnimatePresence, motion } from "framer-motion";
+import Skeleton from "../components/Skeleton";
+import Weather from "../components/Weather";
 
 interface Suggestion {
   name: string;
@@ -117,7 +117,7 @@ export default function Index() {
 
   return (
     <div className="p-4">
-      <h1 className="text-5xl font-display font-bold text-indigo-600 dark:text-neutral-50 text-center leading-16 mx-[10%] my-4 sm:mx-[20%]">
+      <h1 className="text-5xl font-display font-bold text-indigo-600 dark:text-neutral-50 text-center leading-16 mx-[8%] my-4 sm:mx-[20%]">
         How's the sky looking today?
       </h1>
       <form

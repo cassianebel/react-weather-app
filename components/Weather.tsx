@@ -60,7 +60,7 @@ export default function Weather({ lat, lon }: { lat: number; lon: number }) {
     fetchWeather();
   }, [lat, lon, units]);
 
-  // get the user's location
+  // get the location
   useEffect(() => {
     async function fetchCity() {
       const url = buildReverseGeocodeURL(lat, lon);
@@ -74,7 +74,7 @@ export default function Weather({ lat, lon }: { lat: number; lon: number }) {
   }, [lat, lon]);
 
   if (!data) {
-    return <Skeleton />; // whatever loading UI
+    return <Skeleton />;
   }
 
   return (

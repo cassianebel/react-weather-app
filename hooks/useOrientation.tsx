@@ -8,7 +8,7 @@ export default function useOrientation() {
   useEffect(() => {
     const getOrientation = () =>
       window.innerHeight > window.innerWidth ? "portrait" : "landscape";
-
+    console.log(window.innerHeight, window.innerWidth);
     setOrientation(getOrientation());
 
     const handleResize = () => {
