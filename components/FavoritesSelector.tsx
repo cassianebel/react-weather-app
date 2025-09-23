@@ -3,6 +3,7 @@ import { MdFavorite } from "react-icons/md";
 import { handleClickOutside } from "../helperFunctions";
 import { useFavorites } from "context/FavoritesContext";
 import { AnimatePresence, motion } from "framer-motion";
+import ButtonWithTip from "./ButtonWithTip";
 
 export default function FavoritesSelector() {
   const { favorites } = useFavorites();
@@ -28,7 +29,15 @@ export default function FavoritesSelector() {
 
   return (
     <div className="relative">
-      <button
+      <ButtonWithTip
+        tip="Show Favorites"
+        side="bottom"
+        action={() => setDisplayFavorites(!displayFavorites)}
+        icon={<MdFavorite />}
+        ariaControls="favorites"
+        ariaExpanded={displayFavorites}
+      />
+      {/* <button
         aria-controls="favorites"
         aria-expanded={displayFavorites}
         onClick={() => setDisplayFavorites(!displayFavorites)}
@@ -36,7 +45,7 @@ export default function FavoritesSelector() {
       >
         <span aria-hidden><MdFavorite /></span>
         <span className="sr-only">Click for Favorites list</span>
-      </button>
+      </button> */}
       <AnimatePresence>
         {displayFavorites && (
           <motion.div

@@ -1,4 +1,10 @@
-import { createContext, useContext, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  type ReactNode,
+} from "react";
 
 type BackgroundContextType = {
   showImage: boolean;
@@ -19,10 +25,19 @@ export function useBackground() {
 }
 
 export function BackgroundProvider({ children }: { children: ReactNode }) {
-  const [showImage, setShowImage] = useState(true);
+  const [showImage, setShowImage] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const toggleImage = () => setShowImage((prev) => !prev);
+  const toggleImage = () => {
+    setShowImage((prev) => !prev);
+    localStorage.setItem("background", !showImage ? "image" : "color");
+  };
+
+  // load preference from localStorage
+  useEffect(() => {
+    const bgPreference = localStorage.background === "image" || false;
+    setShowImage(bgPreference);
+  }, []);
 
   return (
     <BackgroundContext.Provider

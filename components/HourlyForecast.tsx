@@ -81,7 +81,7 @@ export default function DailyForecast({
           aria-controls="day-picker"
           aria-expanded={displayDays}
           onClick={() => setDisplayDays(!displayDays)}
-          className="flex items-center justify-center gap-2 bg-indigo-200/70 hover:bg-indigo-300 dark:bg-neutral-600 dark:hover:bg-neutral-700 py-2 px-4 rounded-md cursor-pointer outline-indigo-500 dark:outline-white outline-offset-4 transition-colors duration-300"
+          className="flex items-center justify-center gap-2 bg-indigo-200/70 hover:bg-indigo-300 focus:bg-indigo-300 dark:bg-neutral-600 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 py-2 px-4 rounded-md cursor-pointer outline-indigo-500 dark:outline-white outline-offset-4 transition-colors duration-300"
         >
           {hourlyDay}
           <span className="sr-only">Click to open Day menu</span>

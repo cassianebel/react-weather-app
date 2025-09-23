@@ -176,7 +176,7 @@ export default function Index() {
   return (
     <div className="p-4">
       <ErrorBanner/>
-      <h1 className="text-5xl font-display font-bold text-indigo-600 dark:text-neutral-50 text-center leading-16 mx-[6%] my-4 sm:mx-[20%]">
+      <h1 className="text-5xl font-display font-bold text-indigo-950 dark:text-neutral-50 text-center leading-16 mx-[6%] my-4 sm:mx-[20%]">
         How's the sky looking today?
       </h1>
       <form
