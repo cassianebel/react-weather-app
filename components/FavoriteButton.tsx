@@ -37,7 +37,7 @@ export default function FavoriteButton({
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 4 }}
               transition={{ duration: 0.2 }}
-              className="bg-indigo-300 text-indigo-900 dark:text-neutral-50 dark:bg-neutral-700 text-xs px-3 py-2 rounded-lg"
+              className="bg-indigo-300 text-indigo-900 dark:text-neutral-50 dark:bg-neutral-700 text-xs px-3 py-2 rounded-lg z-100"
             >
               {isFavorite ? "Remove from favorites" : "Add to favorites"}
               <Tooltip.Arrow className="fill-indigo-300 dark:fill-neutral-700" />

@@ -122,7 +122,6 @@ export default function Index() {
         const data = await res.json();
         setSuggestions(data.results || []);
         setDisplaySuggestions(true);
-        
       } catch (err) {
         console.error("Suggestion fetch failed:", err);
         setLocationsError("Unable to load locations. Please try again later.");
@@ -138,11 +137,9 @@ export default function Index() {
     function handleDocClick(event: MouseEvent) {
       handleClickOutside(event, "suggestions-listbox", setDisplaySuggestions);
     }
-
     if (displaySuggestions) {
       document.addEventListener("mousedown", handleDocClick);
     }
-
     return () => {
       document.removeEventListener("mousedown", handleDocClick);
     };
@@ -156,7 +153,7 @@ export default function Index() {
     }
     const first = suggestions[0];
     setCoords({ lat: first.latitude, lon: first.longitude });
-    setQuery(`${first.name}, ${first.admin1 || first.country}`);
+    setQuery('');
     setSuggestions([]);
     setDisplaySuggestions(false);
   }
@@ -218,9 +215,7 @@ export default function Index() {
                         lat: suggestion.latitude,
                         lon: suggestion.longitude,
                       });
-                      setQuery(
-                        `${suggestion.name}, ${suggestion.admin1 || suggestion.country}`
-                      );
+                      setQuery('');
                       setDisplaySuggestions(false);
                       setSuggestions([]);
                     }}

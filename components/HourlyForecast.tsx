@@ -74,14 +74,14 @@ export default function DailyForecast({
   }, [displayDays]);
 
   return (
-    <section className="bg-indigo-200/50 backdrop-blur-xl dark:bg-neutral-800 rounded-xl p-4 pe-0 min-h-full transition-colors duration-300">
+    <section className="bg-indigo-200/50 backdrop-blur-xl dark:bg-neutral-800 shadow dark:shadow-none rounded-xl p-4 pe-0 min-h-full transition-colors duration-300">
       <div className="flex items-center justify-between gap-4 relative pe-4">
         <h2 className="text-lg">Hourly forecast</h2>
         <button
           aria-controls="day-picker"
           aria-expanded={displayDays}
           onClick={() => setDisplayDays(!displayDays)}
-          className="flex items-center justify-center gap-2 bg-indigo-200/70 hover:bg-indigo-300 focus:bg-indigo-300 dark:bg-neutral-600 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 py-2 px-4 rounded-md cursor-pointer outline-indigo-500 dark:outline-white outline-offset-4 transition-colors duration-300"
+          className="flex items-center justify-center gap-2 bg-indigo-200/70 hover:bg-indigo-300 focus:bg-indigo-300 dark:bg-neutral-600 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 shadow dark:shadow-none py-2 px-4 rounded-md cursor-pointer outline-indigo-500 dark:outline-white outline-offset-4 transition-colors duration-300"
         >
           {hourlyDay}
           <span className="sr-only">Click to open Day menu</span>
@@ -162,7 +162,7 @@ export default function DailyForecast({
               <li
                 key={hour}
                 data-hour={hourRef}
-                className="flex items-center justify-between gap-2 bg-indigo-200/30 dark:bg-neutral-700 border border-indigo-300 dark:border-neutral-600 rounded-xl p-2 my-3 last:mb-0"
+                className="flex items-center justify-between gap-2 bg-indigo-200/30 dark:bg-neutral-700 border border-transparent shadow dark:shadow-none dark:border-neutral-600 rounded-xl p-2 my-3 last:mb-0"
               >
                 <span className="sr-only">{weather}</span>
                 <img

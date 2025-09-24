@@ -57,21 +57,22 @@ export default function Layout({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <div className="text-indigo-950 dark:text-neutral-50 bg-indigo-100 dark:bg-neutral-900 transition-colors duration-300">
+    <div className="text-indigo-950 dark:text-neutral-50 bg-indigo-100 dark:bg-neutral-900 ">
       <div
-        className='fixed inset-0  bg-cover bg-center bg-fixed h-screen overflow-scroll '
+        className='fixed inset-0 bg-cover bg-center bg-fixed h-screen overflow-scroll bg-indigo-100 dark:bg-neutral-900 '
         style={{
           backgroundImage: loaded && visible ? `url(${bgUrl})` : undefined,
           opacity: showImage && loaded ? 1 : 0,
           transition: "opacity 0.4s ease-in-out",
         }}
       ></div>
-      <div className="relative z-10">
+      <div className="relative z-10 h-[240vh]">
         {children}
-        {showImage && bgUrl && (
-            <footer>
+        {showImage && loaded  && (
+            <footer className="w-max mx-auto bg-indigo-200/40 backdrop-blur-xl dark:bg-neutral-800 border border-transparent dark:border-neutral-600 shadow dark:shadow-none rounded-xl p-4 px-8 m-4" 
+            >
               <p className="sr-only">Background image: {credits.alt}</p>
-              <p className="text-xs text-center py-8 ">
+              <p className="text-xs text-center">
                 Photo by{" "}
                 <a href={`${credits.profileLink}?utm_source=cassia_react_weather_app&utm_medium=referral`} className="underline">
                   {credits.name}
@@ -82,7 +83,7 @@ export default function Layout({ children }: { children: ReactNode }) {
                 </a>
               </p>
             </footer>
-          )}
+        )}
       </div>
     </div>
   );
