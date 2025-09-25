@@ -64,7 +64,7 @@ export default function CurrentConditions({
 
   return (
     <section>
-      <div className="flex flex-col md:flex-row gap-2 items-center justify-between text-center md:text-left rounded-2xl p-9 ps-12 text-white bg-indigo-700 dark:bg-blue-700 bg-[url(/images/bg-today-small.svg)] md:bg-[url(/images/bg-today-large.svg)] bg-no-repeat bg-bottom bg-cover bg-blend-screen dark:bg-blend-normal">
+      <div className="flex flex-col md:flex-row gap-2 items-center justify-between text-center md:text-left rounded-2xl p-9 px-12 text-white bg-indigo-700 dark:bg-blue-700 bg-[url(/images/bg-today-small.svg)] md:bg-[url(/images/bg-today-large.svg)] bg-no-repeat bg-bottom bg-cover bg-blend-screen dark:bg-blend-normal">
         <div>
           <h2 className="text-2xl font-semibold mb-2 relative">
             <span className="sr-only">Current Conditions for</span> {place.name}

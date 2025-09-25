@@ -203,7 +203,7 @@ export default function Index() {
                 transition={{ duration: 0.25 }}
                 id="suggestions-listbox"
                 role="listbox"
-                className="absolute mt-3 p-3 bg-indigo-200 dark:bg-neutral-800 rounded-xl w-full min-h-40"
+                className="z-50 absolute mt-3 p-3 bg-indigo-200 dark:bg-neutral-800 rounded-xl w-full min-h-40"
               >
                 {suggestions.map((suggestion) => (
                   <button
