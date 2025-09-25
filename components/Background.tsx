@@ -59,7 +59,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <div className="text-indigo-950 dark:text-neutral-50 bg-indigo-100 dark:bg-neutral-900 ">
       <div
-        className='fixed inset-0 bg-cover bg-center bg-fixed h-screen overflow-scroll bg-indigo-100 dark:bg-neutral-900 '
+        className='fixed inset-0 bg-cover bg-center h-screen max-h-screen overflow-scroll bg-indigo-100 dark:bg-neutral-900 '
         style={{
           backgroundImage: loaded && visible ? `url(${bgUrl})` : undefined,
           opacity: showImage && loaded ? 1 : 0,
