@@ -91,5 +91,5 @@ export function translateWeatherCode(code: number): [string, string] {
     96: ["Slight hail thunderstorm", "icon-storm.webp"],
     99: ["Heavy hail thunderstorm", "icon-storm.webp"],
   };
-  return weatherCodes[code] || "Unknown";
+  return weatherCodes[code] || ["Unknown", "No description available"];
 }

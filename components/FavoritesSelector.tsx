@@ -37,15 +37,6 @@ export default function FavoritesSelector() {
         ariaControls="favorites"
         ariaExpanded={displayFavorites}
       />
-      {/* <button
-        aria-controls="favorites"
-        aria-expanded={displayFavorites}
-        onClick={() => setDisplayFavorites(!displayFavorites)}
-        className="p-3 rounded-lg bg-indigo-200/50 backdrop-blur-xl hover:bg-indigo-300 dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:text-neutral-50 transition-colors duration-300 cursor-pointer outline-indigo-500 dark:outline-white outline-offset-4"
-      >
-        <span aria-hidden><MdFavorite /></span>
-        <span className="sr-only">Click for Favorites list</span>
-      </button> */}
       <AnimatePresence>
         {displayFavorites && (
           <motion.div

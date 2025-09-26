@@ -1,6 +1,7 @@
 export default function Skeleton() {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <section className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <h2 className="sr-only">Loading weather data</h2>
       <div className="lg:col-span-2">
         <div className="animate-pulse">
           <div className="h-60 bg-indigo-200/70  backdrop-blur-xl dark:bg-neutral-800 border border-transparent shadow dark:shadow-none dark:border-neutral-600 rounded-xl"></div>
@@ -24,6 +25,6 @@ export default function Skeleton() {
       <div className="animate-pulse">
         <div className="h-full bg-indigo-200/70  backdrop-blur-xl dark:bg-neutral-800 border border-transparent shadow dark:shadow-none dark:border-neutral-600 rounded-xl"></div>
       </div>
-    </div>
+    </section>
   );
 }

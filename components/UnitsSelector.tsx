@@ -10,21 +10,19 @@ export default function UnitsSelector() {
 
   // close the units selector if clicking outside of it
   useEffect(() => {
-    if (displayUnits) {
-      document.addEventListener("mousedown", (event: MouseEvent) =>
-        handleClickOutside(event, "settings", setDisplayUnits)
-      );
-    } else {
-      document.removeEventListener("mousedown", (event: MouseEvent) =>
-        handleClickOutside(event, "settings", setDisplayUnits)
-      );
-    }
-    return () => {
-      document.removeEventListener("mousedown", (event: MouseEvent) =>
-        handleClickOutside(event, "settings", setDisplayUnits)
-      );
-    };
-  }, [displayUnits]);
+  const handleMouseDown = (event: MouseEvent) =>
+    handleClickOutside(event, "settings", setDisplayUnits);
+
+  if (displayUnits) {
+    document.addEventListener("mousedown", handleMouseDown);
+  } else {
+    document.removeEventListener("mousedown", handleMouseDown);
+  }
+
+  return () => {
+    document.removeEventListener("mousedown", handleMouseDown);
+  };
+}, [displayUnits]);
 
   const toggleUnits = () => {
     return () => {

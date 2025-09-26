@@ -25,6 +25,7 @@ export default function Index() {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [weatherError, setWeatherError] = useState<string | null>(null);
   const [locationsError, setLocationsError] = useState<string | null>(null);
+  const [geoError, setGeoError] = useState<string | null>(null);
   const [data, setData] = useState<any>(null);
 
   const { units } = useUnits();
@@ -52,13 +53,14 @@ export default function Index() {
         console.error("Geolocation error:", err);
         let message = "Unable to retrieve your location.";
         if (err.code === 1) {
-          message = "Location access denied. Showing default location.";
+          message = "Location access denied. Showing default location. Please use the search to find your weather.";
         } else if (err.code === 2) {
-          message = "Location unavailable. Showing default location.";
+          message = "Location unavailable. Showing default location. Please use the search to find your weather.";
         } else if (err.code === 3) {
-          message = "Location request timed out. Showing default location.";
+          message = "Location request timed out. Showing default location. Please use the search to find your weather.";
         }
         setCoords({ lat: 41.2565, lon: -95.9345 });
+        setGeoError(message);
       },
       geoOptions
     );
@@ -176,6 +178,9 @@ export default function Index() {
       <h1 className="text-5xl font-display font-bold text-indigo-950 dark:text-neutral-50 text-center leading-16 mx-[6%] my-4 sm:mx-[20%]">
         How's the sky looking today?
       </h1>
+      {geoError && (
+        <p className="text-center">{geoError}</p>
+      )}
       <form
         className="flex flex-col md:flex-row gap-3 my-8 max-w-xl mx-auto"
         onSubmit={(e) => handleSubmit(e)}

@@ -9,7 +9,8 @@ export default function Header() {
   return (
     <header className="sm:flex items-center justify-between gap-4 p-6">
       <svg
-        aria-label="Weather Now logo"
+        role="img"
+        aria-labelledby="logo-title"
         className="max-w-200px mx-auto sm:ms-0 sm:me-auto mb-4 sm:mb-0"
         xmlns="http://www.w3.org/2000/svg"
         width="197"
@@ -17,6 +18,7 @@ export default function Header() {
         fill="none"
         viewBox="0 0 197 40"
       >
+        <title id="logo-title">Weather Now logo</title>
         <g clipPath="url(#a)">
           <path
             fill="#FF820A"

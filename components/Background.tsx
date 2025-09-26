@@ -50,8 +50,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   useEffect(() => {
     const prefersDark =
       localStorage.theme === "dark" ||
-      (!("theme" in localStorage) &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches);
+      !("theme" in localStorage); // default to dark if no preference
 
     document.documentElement.classList.toggle("dark", prefersDark);
   }, []);

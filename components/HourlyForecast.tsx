@@ -57,19 +57,18 @@ export default function DailyForecast({
 
   // close the day selector if clicking outside of it
   useEffect(() => {
+    const handleMouseDown = (event: MouseEvent) =>
+      handleClickOutside(event, "day-picker", setDisplayDays);
+
     if (displayDays) {
-      document.addEventListener("mousedown", (event: MouseEvent) =>
-        handleClickOutside(event, "day-picker", setDisplayDays)
-      );
+      document.addEventListener("mousedown", handleMouseDown);
     } else {
-      document.removeEventListener("mousedown", (event: MouseEvent) =>
-        handleClickOutside(event, "day-picker", setDisplayDays)
-      );
+      document.removeEventListener("mousedown", handleMouseDown);
     }
+
     return () => {
-      document.removeEventListener("mousedown", (event: MouseEvent) =>
-        handleClickOutside(event, "day-picker", setDisplayDays)
-      );
+      // Cleanup listener on unmount or dependency change
+      document.removeEventListener("mousedown", handleMouseDown);
     };
   }, [displayDays]);
 
@@ -143,6 +142,7 @@ export default function DailyForecast({
         </AnimatePresence>
       </div>
       <ul
+        tabIndex={0}
         ref={listRef}
         className="max-h-137 overflow-y-scroll pe-4 mt-2 outline-indigo-500 dark:outline-white outline-offset-4 rounded-xl"
       >

@@ -14,7 +14,7 @@ export default function CurrentConditions({
 }) {
   if (!place) return null;
   const [currentWeather, setCurrentWeather] = useState<any>(
-    translateWeatherCode(data.current.weather_code)
+    data && data.current ? translateWeatherCode(data.current.weather_code) : null 
   );
   const [isFavorite, setIsFavorite] = useState(false);
 
