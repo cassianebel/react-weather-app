@@ -35,7 +35,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         setError("Background Image failed to load. Please try again later.")
         console.error(err)
   });
-  }, []);
+  }, [orientation, setError]);
 
   useEffect(() => {
   if (showImage) {

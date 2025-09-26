@@ -11,19 +11,17 @@ export default function FavoritesSelector() {
 
   // close the units selector if clicking outside of it
   useEffect(() => {
+    const handleMouseDown = (event: MouseEvent) =>
+      handleClickOutside(event, "favorites", setDisplayFavorites);
+
     if (displayFavorites) {
-      document.addEventListener("mousedown", (event: MouseEvent) =>
-        handleClickOutside(event, "favorites", setDisplayFavorites)
-      );
+      document.addEventListener("mousedown", handleMouseDown);
     } else {
-      document.removeEventListener("mousedown", (event: MouseEvent) =>
-        handleClickOutside(event, "favorites", setDisplayFavorites)
-      );
+      document.removeEventListener("mousedown", handleMouseDown);
     }
+
     return () => {
-      document.removeEventListener("mousedown", (event: MouseEvent) =>
-        handleClickOutside(event, "favorites", setDisplayFavorites)
-      );
+      document.removeEventListener("mousedown", handleMouseDown);
     };
   }, [displayFavorites]);
 

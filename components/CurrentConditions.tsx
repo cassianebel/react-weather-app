@@ -21,7 +21,9 @@ export default function CurrentConditions({
   type FavoriteLocation = { name: string; lat: number; lon: number };
 
   useEffect(() => {
-    setCurrentWeather(translateWeatherCode(data.current.weather_code));
+    if (data.current) {
+      setCurrentWeather(translateWeatherCode(data.current.weather_code));
+    }
   }, [data]);
 
   // check if the location is in favorites on initial load
@@ -42,25 +44,6 @@ export default function CurrentConditions({
     day: "numeric",
   };
   const formattedDate = today.toLocaleDateString("en-US", options);
-
-  function toggleFavorite() {
-    const storedFavorites = localStorage.getItem("favorite-locations");
-    let favorites: FavoriteLocation[] = storedFavorites
-      ? JSON.parse(storedFavorites)
-      : [];
-
-    const exists = favorites.some((fav) => fav.name === place.name);
-
-    if (exists) {
-      favorites = favorites.filter((fav) => fav.name !== place.name);
-      setIsFavorite(false);
-    } else {
-      favorites.push({ name: place.name, lat: place.lat, lon: place.lon });
-      setIsFavorite(true);
-    }
-
-    localStorage.setItem("favorite-locations", JSON.stringify(favorites));
-  }
 
   return (
     <section>

@@ -10,54 +10,51 @@ export default function UnitsSelector() {
 
   // close the units selector if clicking outside of it
   useEffect(() => {
-  const handleMouseDown = (event: MouseEvent) =>
-    handleClickOutside(event, "settings", setDisplayUnits);
+    const handleMouseDown = (event: MouseEvent) =>
+      handleClickOutside(event, "settings", setDisplayUnits);
 
-  if (displayUnits) {
-    document.addEventListener("mousedown", handleMouseDown);
-  } else {
-    document.removeEventListener("mousedown", handleMouseDown);
-  }
+    if (displayUnits) {
+      document.addEventListener("mousedown", handleMouseDown);
+    } else {
+      document.removeEventListener("mousedown", handleMouseDown);
+    }
 
-  return () => {
-    document.removeEventListener("mousedown", handleMouseDown);
-  };
-}, [displayUnits]);
+    return () => {
+      document.removeEventListener("mousedown", handleMouseDown);
+    };
+  }, [displayUnits]);
 
   const toggleUnits = () => {
-    return () => {
-      if (units.all === "imperial") {
-        setUnits({
-          all: "metric",
-          temp: "celsius",
-          wind: "kmh",
-          precip: "mm",
-        });
-      } else {
-        setUnits({
-          all: "imperial",
-          temp: "fahrenheit",
-          wind: "mph",
-          precip: "inch",
-        });
-      }
-    };
+    if (units.all === "imperial") {
+      setUnits({
+        all: "metric",
+        temp: "celsius",
+        wind: "kmh",
+        precip: "mm",
+      });
+    } else {
+      setUnits({
+        all: "imperial",
+        temp: "fahrenheit",
+        wind: "mph",
+        precip: "inch",
+      });
+    }
   };
 
-  const unitChangeHandler = () => {
-    return (e: React.ChangeEvent<HTMLInputElement>) => {
-      setUnits({
-        ...units,
-        [e.target.name]: e.target.value,
-        all: "mix",
-      });
-    };
+  const unitChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUnits({
+      ...units,
+      [e.target.name]: e.target.value,
+      all: "mix",
+    });
   };
 
   return (
     <div className="relative">
       <button
-      aria-label="Click to open Unit settings menu"
+      type="button"
+        aria-label="Click to open Unit settings menu"
         aria-controls="settings"
         aria-expanded={displayUnits}
         onClick={() => setDisplayUnits(!displayUnits)}
@@ -103,7 +100,7 @@ export default function UnitsSelector() {
             className="absolute right-0 min-w-55 border bg-indigo-200 border-indigo-300 dark:border-neutral-600 dark:text-neutral-50 dark:bg-neutral-800 mt-2 rounded-xl z-10 shadow-lg dark:shadow-neutral-900/40"
           >
             <button
-              onClick={toggleUnits()}
+              onClick={toggleUnits}
               className="flex justify-self-stretch text-left box-border px-2 py-1 mx-2 my-2 rounded-lg cursor-pointer hover:bg-indigo-300 focus:bg-indigo-300 dark:hover:bg-neutral-700 dark:focus:bg-neutral-700 outline-indigo-500 dark:outline-white outline-offset-4 transition-colors duration-300"
             >
               {units.all === "imperial"
@@ -112,7 +109,7 @@ export default function UnitsSelector() {
             </button>
             <RadioFieldset
               legend="Temperature"
-              changeHandler={unitChangeHandler()}
+              changeHandler={unitChangeHandler}
               options={[
                 {
                   name: "temp",
@@ -130,7 +127,7 @@ export default function UnitsSelector() {
             />
             <RadioFieldset
               legend="Wind Speed"
-              changeHandler={unitChangeHandler()}
+              changeHandler={unitChangeHandler}
               options={[
                 {
                   name: "wind",
@@ -149,7 +146,7 @@ export default function UnitsSelector() {
 
             <RadioFieldset
               legend="Percipitation"
-              changeHandler={unitChangeHandler()}
+              changeHandler={unitChangeHandler}
               options={[
                 {
                   name: "precip",
