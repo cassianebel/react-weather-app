@@ -64,7 +64,7 @@ export default function Index() {
       },
       geoOptions
     );
-  }, []);
+  }, [router.isReady, lat, lon]);
 
     // if lat/lon are present in the URL, use them
   useEffect(() => {
@@ -151,8 +151,12 @@ export default function Index() {
     if (e) e.preventDefault();
 
     if (!suggestions.length) {
+      setLocationsError('No suggestions found. Please enter a valid query.');
       return;
+    } else {
+      setLocationsError("");
     }
+
     const first = suggestions[0];
     setCoords({ lat: first.latitude, lon: first.longitude });
     setQuery('');
@@ -223,6 +227,7 @@ export default function Index() {
                       setQuery('');
                       setDisplaySuggestions(false);
                       setSuggestions([]);
+                      setLocationsError("");
                     }}
                     className="block w-full text-left px-3 py-2 rounded-lg border border-transparent hover:bg-indigo-300 dark:hover:bg-neutral-700 dark:hover:border-neutral-600 dark:focus:bg-neutral-700 cursor-pointer outline-indigo-500 dark:outline-white outline-offset-4"
                   >

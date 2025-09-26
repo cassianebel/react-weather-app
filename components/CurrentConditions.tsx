@@ -1,4 +1,4 @@
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
 import { translateWeatherCode } from "../helperFunctions";
 import Panel from "./Panel";
 import FavoriteButton from "./FavoriteButton";

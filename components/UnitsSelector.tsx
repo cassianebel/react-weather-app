@@ -145,7 +145,7 @@ export default function UnitsSelector() {
             />
 
             <RadioFieldset
-              legend="Percipitation"
+              legend="Precipitation"
               changeHandler={unitChangeHandler}
               options={[
                 {
