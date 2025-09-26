@@ -26,6 +26,7 @@ export default function Index() {
   const [weatherError, setWeatherError] = useState<string | null>(null);
   const [locationsError, setLocationsError] = useState<string | null>(null);
   const [geoError, setGeoError] = useState<string | null>(null);
+  const [searchError, setSearchError] = useState<string | null>(null);
   const [data, setData] = useState<any>(null);
 
   const { units } = useUnits();
@@ -124,6 +125,8 @@ export default function Index() {
         const data = await res.json();
         setSuggestions(data.results || []);
         setDisplaySuggestions(true);
+        setLocationsError("");
+        setSearchError("");
       } catch (err) {
         console.error("Suggestion fetch failed:", err);
         setLocationsError("Unable to load locations. Please try again later.");
@@ -150,11 +153,14 @@ export default function Index() {
   async function handleSubmit(e?: React.FormEvent) {
     if (e) e.preventDefault();
 
-    if (!suggestions.length) {
-      setLocationsError('No suggestions found. Please enter a valid query.');
+    if (query && !suggestions.length) {
+      setSearchError("No place suggestions found. Please try another search term.");
       return;
-    } else {
-      setLocationsError("");
+    }
+
+    if (!query && !suggestions.length) {
+      // Don't show error if user just selected a suggestion
+      return;
     }
 
     const first = suggestions[0];
@@ -162,6 +168,7 @@ export default function Index() {
     setQuery('');
     setSuggestions([]);
     setDisplaySuggestions(false);
+    setSearchError("");
   }
 
   if (weatherError) {
@@ -228,6 +235,7 @@ export default function Index() {
                       setDisplaySuggestions(false);
                       setSuggestions([]);
                       setLocationsError("");
+                      setSearchError("");
                     }}
                     className="block w-full text-left px-3 py-2 rounded-lg border border-transparent hover:bg-indigo-300 dark:hover:bg-neutral-700 dark:hover:border-neutral-600 dark:focus:bg-neutral-700 cursor-pointer outline-indigo-500 dark:outline-white outline-offset-4"
                   >
@@ -257,6 +265,11 @@ export default function Index() {
           </motion.div>
         )}
       </AnimatePresence>
+      {searchError && (
+        <div className="w-max mx-auto bg-indigo-200/40 backdrop-blur-xl dark:bg-neutral-800 border border-transparent dark:border-neutral-600 shadow dark:shadow-none rounded-xl p-4 px-8 m-4">
+          <p className="text-center">{searchError}</p>
+        </div>
+      )}
       
       {!coords ? (
         // show skeleton while waiting on geolocation
