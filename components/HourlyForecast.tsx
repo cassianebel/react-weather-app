@@ -162,7 +162,7 @@ export default function DailyForecast({
               <li
                 key={hour}
                 data-hour={hourRef}
-                className="flex items-center justify-between gap-2 bg-indigo-200/30 dark:bg-neutral-700 border border-transparent shadow dark:shadow-none dark:border-neutral-600 rounded-xl p-2 my-3 last:mb-0"
+                className="flex items-center justify-between gap-2 bg-indigo-50/30 dark:bg-neutral-700 border border-transparent shadow dark:shadow-none dark:border-neutral-600 rounded-xl p-2 my-3 last:mb-0"
               >
                 <span className="sr-only">{weather}</span>
                 <img

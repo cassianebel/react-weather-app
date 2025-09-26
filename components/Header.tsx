@@ -39,12 +39,12 @@ export default function Header() {
           </clipPath>
         </defs>
       </svg>
-      <div className="flex items-center justify-center gap-4">
+      <menu className="flex items-center justify-center gap-4">
         <FavoritesSelector />
         <ThemeButton />
         <BGImageButton />
         <UnitsSelector />
-      </div>
+      </menu>
     </header>
   );
 }
