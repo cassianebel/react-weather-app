@@ -47,39 +47,16 @@ export default function Weather({
   lat,
   lon,
   data,
+  loading,
 }: {
   lat: number;
   lon: number;
   data: any;
+  loading: boolean;
 }) {
   const { units } = useUnits();
   // const [data, setData] = useState<any>(null);
   const [place, setPlace] = useState<any>(null);
-
-  // // get the weather data
-  // useEffect(() => {
-  //   async function fetchWeather() {
-  //     const url = buildForecastUrl(lat, lon, units);
-  //     try {
-  //       //const res = await fetch(url);
-  //       const res = await fetch("/api/fail");
-
-  //       if (!res.ok) {
-  //         console.error(`HTTP error! status: ${res.status}`);
-  //         setError("Unable to load weather. Please try again later.");
-  //         return;
-  //       }
-
-  //       const json = await res.json();
-  //       setData(json);
-  //       console.log(json);
-  //     } catch (err) {
-  //       console.error(`Weather fetch failed: ${err}`);
-  //       setError("Unable to load weather. Please try again later.");
-  //     }
-  //   }
-  //   fetchWeather();
-  // }, [lat, lon, units]);
 
   // get the location
   useEffect(() => {
@@ -94,7 +71,7 @@ export default function Weather({
     fetchCity();
   }, [lat, lon]);
 
-  if (!data) {
+  if (loading || !data) {
     return <Skeleton />;
   }
 

@@ -19,6 +19,17 @@
   --color-blue-700: hsl(248, 70%, 36%);
 }
 
+@keyframes bounceDots {
+  0%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+}
+
 html,
 body {
   @media (prefers-color-scheme: dark) {

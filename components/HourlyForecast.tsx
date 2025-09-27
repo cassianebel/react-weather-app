@@ -14,7 +14,7 @@ const getLocalDate = () => {
   return `${year}-${month}-${day}`;
 };
 
-export default function DailyForecast({
+export default function HourlyForecast({
   data,
   units,
 }: {
@@ -71,6 +71,8 @@ export default function DailyForecast({
       document.removeEventListener("mousedown", handleMouseDown);
     };
   }, [displayDays]);
+
+  if (!data || !data.daily || !data.hourly) return null;
 
   return (
     <section className="bg-indigo-200/50 backdrop-blur-xl dark:bg-neutral-800 shadow dark:shadow-none rounded-xl p-4 pe-0 min-h-full transition-colors duration-300">

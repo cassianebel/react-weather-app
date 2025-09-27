@@ -28,6 +28,7 @@ export default function Index() {
   const [geoError, setGeoError] = useState<string | null>(null);
   const [searchError, setSearchError] = useState<string | null>(null);
   const [data, setData] = useState<any>(null);
+  const [loading, setLoading] = useState(false);
 
   const { units } = useUnits();
   const router = useRouter();
@@ -54,11 +55,14 @@ export default function Index() {
         console.error("Geolocation error:", err);
         let message = "Unable to retrieve your location.";
         if (err.code === 1) {
-          message = "Location access denied. Showing default location. Please use the search to find your weather.";
+          message =
+            "Location access denied. Showing default location. Please use the search to find your weather.";
         } else if (err.code === 2) {
-          message = "Location unavailable. Showing default location. Please use the search to find your weather.";
+          message =
+            "Location unavailable. Showing default location. Please use the search to find your weather.";
         } else if (err.code === 3) {
-          message = "Location request timed out. Showing default location. Please use the search to find your weather.";
+          message =
+            "Location request timed out. Showing default location. Please use the search to find your weather.";
         }
         setCoords({ lat: 41.2565, lon: -95.9345 });
         setGeoError(message);
@@ -67,7 +71,7 @@ export default function Index() {
     );
   }, [router.isReady, lat, lon]);
 
-    // if lat/lon are present in the URL, use them
+  // if lat/lon are present in the URL, use them
   useEffect(() => {
     if (lat && lon) {
       setCoords({ lat: Number(lat), lon: Number(lon) });
@@ -76,22 +80,28 @@ export default function Index() {
 
   // fetch weather function
   async function fetchWeather(lat: number, lon: number) {
+    setLoading(true);
+    setWeatherError("");
     const url = buildForecastUrl(lat, lon, units);
     try {
-       const res = await fetch(url);
+      const res = await fetch(url);
       // const res = await fetch("/api/fail");
       if (!res.ok) {
         console.error(`HTTP error! status: ${res.status}`);
         setWeatherError("Unable to load weather. Please try again later.");
+        setData(null);
+        setLoading(false);
         return;
       }
       const json = await res.json();
       setData(json);
-      setWeatherError("");
-      console.log(json);
+      // console.log(json);
     } catch (err) {
       console.error(`Weather fetch failed: ${err}`);
       setWeatherError("Unable to load weather. Please try again later.");
+      setData(null);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -110,18 +120,22 @@ export default function Index() {
     }
     const timeout = setTimeout(async () => {
       try {
-          const res = await fetch(
-            `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(query)}&count=5&language=en&format=json`
-          );
+        const res = await fetch(
+          `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
+            query
+          )}&count=5&language=en&format=json`
+        );
         //const res = await fetch('/api/fail');
         if (!res.ok) {
           console.error(`HTTP error! status: ${res.status}`);
-          setLocationsError("Unable to load locations. Please try again later.");
+          setLocationsError(
+            "Unable to load locations. Please try again later."
+          );
           setSuggestions([]);
           setDisplaySuggestions(false);
           return;
         }
-        
+
         const data = await res.json();
         setSuggestions(data.results || []);
         setDisplaySuggestions(true);
@@ -154,7 +168,9 @@ export default function Index() {
     if (e) e.preventDefault();
 
     if (query && !suggestions.length) {
-      setSearchError("No place suggestions found. Please try another search term.");
+      setSearchError(
+        "No place suggestions found. Please try another search term."
+      );
       return;
     }
 
@@ -165,7 +181,7 @@ export default function Index() {
 
     const first = suggestions[0];
     setCoords({ lat: first.latitude, lon: first.longitude });
-    setQuery('');
+    setQuery("");
     setSuggestions([]);
     setDisplaySuggestions(false);
     setSearchError("");
@@ -185,13 +201,11 @@ export default function Index() {
 
   return (
     <div className="p-4">
-      <ErrorBanner/>
+      <ErrorBanner />
       <h1 className="text-5xl font-display font-bold text-indigo-950 dark:text-neutral-50 text-center leading-16 mx-[6%] my-4 sm:mx-[20%]">
         How's the sky looking today?
       </h1>
-      {geoError && (
-        <p className="text-center">{geoError}</p>
-      )}
+      {geoError && <p className="text-center">{geoError}</p>}
       <form
         className="flex flex-col md:flex-row gap-3 my-8 max-w-xl mx-auto"
         onSubmit={(e) => handleSubmit(e)}
@@ -231,7 +245,7 @@ export default function Index() {
                         lat: suggestion.latitude,
                         lon: suggestion.longitude,
                       });
-                      setQuery('');
+                      setQuery("");
                       setDisplaySuggestions(false);
                       setSuggestions([]);
                       setLocationsError("");
@@ -256,12 +270,14 @@ export default function Index() {
       <AnimatePresence>
         {locationsError && (
           <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.25 }}
-                >
-          <p className="block max-w-max mx-auto text-center mb-8 p-4 py-2 rounded-xl bg-indigo-200/40 backdrop-blur-xl dark:bg-neutral-900">{locationsError}</p>
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.25 }}
+          >
+            <p className="block max-w-max mx-auto text-center mb-8 p-4 py-2 rounded-xl bg-indigo-200/40 backdrop-blur-xl dark:bg-neutral-900">
+              {locationsError}
+            </p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -270,12 +286,17 @@ export default function Index() {
           <p className="text-center">{searchError}</p>
         </div>
       )}
-      
+
       {!coords ? (
         // show skeleton while waiting on geolocation
         <Skeleton />
       ) : (
-        <Weather lat={coords.lat} lon={coords.lon} data={data} />
+        <Weather
+          lat={coords.lat}
+          lon={coords.lon}
+          data={data}
+          loading={loading}
+        />
       )}
     </div>
   );
